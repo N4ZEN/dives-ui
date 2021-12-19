@@ -1,0 +1,20 @@
+node_modules/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+home2.js
+Explore2.js
+package-lock.json
+profileData.js 
+dives_sites.json
+diveSitesDate.js 
+discoverCatagoriesData.js 
+
+
+# macOS
+.DS_Store
