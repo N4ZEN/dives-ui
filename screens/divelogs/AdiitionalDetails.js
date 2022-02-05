@@ -13,9 +13,10 @@ import FormInput from '../../components/divelogs/FormInput';
 import { Rating } from 'react-native-ratings';
 
 
-const AdditionalData = () => {
-    
-    const [divedetailsvisible, setdivedetailsVisible] = React.useState(true)
+const AdditionalData = ({parentCallback, AdditionalDetails}) => {
+    const editdivedata = AdditionalDetails
+
+    const [divedetailsvisible, setdivedetailsVisible] = React.useState(false)
  {/*Depth States */}
     const [maxDepth, setMaxDepth] = React.useState('')
     const [avgDepth, setAvgDepth] = React.useState('')
@@ -152,6 +153,70 @@ const AdditionalData = () => {
             setBottomTimeRemoveVisible(true)
         }
     }, [textTime])
+
+    React.useEffect(() => {
+        if(editdivedata) {
+            if (Object.keys(editdivedata).length !== 0){
+                setdivedetailsVisible(true)
+            }
+            if(editdivedata.DiveType.boatdive){
+                setBoat(editdivedata.DiveType.boatdive)
+            }  
+            if(editdivedata.DiveType.nightdive){
+                setNight(editdivedata.DiveType.nightdive)
+            }  
+            if(editdivedata.DiveType.trainingdive){
+                setTraining(editdivedata.DiveType.trainingdive)
+            }  
+            if(editdivedata.DiveType.shoredive){
+                setShore(editdivedata.DiveType.shoredive)
+            }  
+            if(editdivedata.DiveType.driftdive){
+                setDrift(editdivedata.DiveType.driftdive)
+            }            
+            setMaxDepth(editdivedata.MaxDepth)
+            setAvgDepth(editdivedata.AvgDepth)
+            setTextTime(editdivedata.BottomTime)
+            setAirTemp(editdivedata.AirTemperature)
+            setSurfTemp(editdivedata.SurfaceTemperature)
+            setBottomTemp(editdivedata.BottomTemperature)
+            setWeights(editdivedata.Weights)
+            setRating(editdivedata.DiveRating)
+            setDescription(editdivedata.Description)
+        }
+    }, [editdivedata])
+
+    React.useEffect(() => {
+        let divetype = {}
+        if(night === true){
+            divetype = {...divetype, nightdive: true}
+        }
+        if(training === true){
+            divetype = {...divetype, trainingdive: true}
+        }
+        if(shore === true){
+            divetype = {...divetype, shoredive: true}
+        }
+        if(boat === true){
+            divetype = {...divetype, boatdive: true}
+        }
+        if(drift === true){
+            divetype = {...divetype, driftdive: true}
+        }
+        //console.log(divetype)
+        parentCallback({
+            DiveType: divetype,
+            MaxDepth: maxDepth,
+            AvgDepth: avgDepth,
+            BottomTime: textTime,
+            AirTemperature: airTemp ,
+            SurfaceTemperature: surfTemp,
+            BottomTemperature: bottomTemp,
+            Weights: weights,
+            DiveRating: rating,
+            Description: description,
+        })
+    }, [rating, maxDepth, textTime,airTemp, surfTemp, bottomTemp, weights, avgDepth, night, training, shore, boat, drift, description])
 
     return (
         <View>
@@ -413,7 +478,7 @@ const AdditionalData = () => {
                     ratingBackgroundColor={COLORS.darkGray1}
                     ratingCount={5}
                     ratingTextColor={(rating === 0) ?COLORS.darkGray1 :COLORS.lightblue2}
-                    startingValue={0}
+                    startingValue={rating}
                     fractions={2}
                     tintColor={COLORS.lightGray2}
                     style= {{backgroundColor: COLORS.lightGray2, borderColor:COLORS.primaryBlur, }}

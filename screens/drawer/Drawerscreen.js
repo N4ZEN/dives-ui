@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Alert} from 'react-native';
 import {DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -15,6 +15,8 @@ AntDesign.loadFont();
 
 const Drawerscreen = props => { 
   const { signOt, user } = React.useContext(AuthContext);
+  const [username, setusername] =React.useState('Naza Zuhair');
+
 
     const handleSignOut =() => {
       auth
@@ -69,8 +71,8 @@ const Drawerscreen = props => {
                   style ={{width: 50,
                       height: 50, 
                       borderRadius: 14,}}/>
-                  <View style = {{marginLeft: SIZES.radius}}>
-                      <Text style ={{color: COLORS.white, fontFamily: 'PoppinsBold', fontSize: 16}}>Jon Smith</Text>
+                  <View style = {{marginLeft: 5}}>
+                      <Text style ={{color: COLORS.white, fontFamily: 'PoppinsBold', fontSize: 16}}>{username}</Text>
                       <Text style ={{color: COLORS.white, fontFamily: 'PoppinsRegular', fontSize: 13}}>{auth.currentUser?.email}</Text>
                   </View>
               </TouchableOpacity>
@@ -82,12 +84,12 @@ const Drawerscreen = props => {
               onPress={() => props.navigation.navigate('Dashboard')}
               icon={() => <AntDesign name="home" color="white" size={19} />}
             />
-            <DrawerItem
-              label="Photos"
+            {/* <DrawerItem
+              label="Invite Friends"
               labelStyle={styles.drawerLabel}
-              onPress={() => props.navigation.navigate('Photos')}
-              icon={() => <Feather name="image" color="white" size={19} />}
-            />
+              onPress={() => props.navigation.navigate('Profile')}
+              icon={() => <MaterialIcons name="group" color="white" size={19} />}
+            /> */}
             <DrawerItem
               label="Settings"
               labelStyle={styles.drawerLabel}
@@ -100,6 +102,12 @@ const Drawerscreen = props => {
               onPress={() => props.navigation.navigate('About')}
               icon={() => <Feather name="external-link" color="white" size={19} />}
             />
+              <DrawerItem
+                label="Help Center"
+                labelStyle={styles.drawerLabel}
+                onPress={() => props.navigation.navigate('FAQs')}
+                icon={() => <MaterialIcons name="headset" color="white" size={19} />}
+              />
           </View>
         </View>
         {/*Logout */}
@@ -111,7 +119,24 @@ const Drawerscreen = props => {
             label="Logout"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             icon={() => <AntDesign name="logout" color="white" size={16} />}
-            onPress={() => handleSignOut()}
+            onPress={() => Alert.alert(
+              "Log out",
+              "Are you sure you want to log out?",
+              [
+                // The "Yes" button
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    handleSignOut();                  },
+                },
+                // The "No" button
+                // Does nothing but dismiss the dialog when tapped
+                {
+                  text: "No",
+                },
+              ]
+            )}
+            // onPress={() => handleSignOut()}
           />
         </View>
       </DrawerContentScrollView>

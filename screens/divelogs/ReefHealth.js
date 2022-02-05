@@ -12,7 +12,9 @@ import FormInput from '../../components/divelogs/FormInput';
 //import { TextInput as TextInputs } from 'react-native-paper';
 
 
-const Reefhealth = () => {
+const Reefhealth = ({parentCallback, RefHealth}) => {
+    const reefhealthedit = RefHealth;
+
     const [RfHVisible, setRfHVisible] = React.useState(false)
     
     const [bleachingLevel, setBleachingLevel] = React.useState('')
@@ -33,7 +35,8 @@ const Reefhealth = () => {
     const [otherPollutions, setOtherPoluutions] = React.useState('')
     const [overlayVisible, setOverlayVisible] = React.useState(false)
     const [overlayText, setOverlayText] = React.useState('')
-    
+    const [overlaysubtext, setoverlaysubtext] = React.useState('')
+
     const togglebleachingSwitch = () => setbleachingToggle(previousState => !previousState);
     const toggleCrownoThornsSwitch = () => setCrownofThornsToggle(previousState => !previousState);
     const toggleRecentlykcoralsSwitch = () => setkilledCoralToggle(previousState => !previousState);
@@ -85,7 +88,7 @@ const Reefhealth = () => {
     }
 
 
-    const SetOverlay = ({text}) => {
+    const SetOverlay = ({text, subtext}) => {
         return(
             <View>
              {overlayVisible && 
@@ -104,9 +107,7 @@ const Reefhealth = () => {
                                     </Pressable>
                                 </View>
                                 <Text style = {{fontFamily: 'OpenSansRegular', fontSize: 14, color: COLORS.darkGray2, textAlign: 'justify', paddingHorizontal: 5}}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed lacinia felis, 
-                                ac aliquam odio. Aenean efficitur dolor nibh, eget fringilla magna interdum at. 
-                                Suspendisse ut leo quis orci varius congue.
+                                    {subtext}
                                 </Text>
                             </View>
                         </Overlay>
@@ -131,6 +132,72 @@ const Reefhealth = () => {
         }
     }, [bleachingToggle, CrownoThornsToggle, pollutionToggle])
 
+    React.useEffect(() => {
+        if(reefhealthedit && Object.keys(reefhealthedit).length !== 0){
+            //console.log(reefhealthedit)
+            if (reefhealthedit.Bleaching.Bleaching){
+                setbleachingToggle(reefhealthedit.Bleaching.Bleaching)
+                if (reefhealthedit.Bleaching.BleachingLevel){
+                    setBleachingLevel(reefhealthedit.Bleaching.BleachingLevel)
+                }
+            }
+            if (reefhealthedit.CrownOfThorns.CrownOfThorns) {
+                setCrownofThornsToggle(reefhealthedit.CrownOfThorns.CrownOfThorns)
+                if (reefhealthedit.CrownOfThorns.NoOfCrownOfThorns) {
+                    setNoofCrownoThorns(reefhealthedit.CrownOfThorns.NoOfCrownOfThorns)
+                }
+            }
+            if(reefhealthedit.RecentlyKilledCoral.RecentlyKilledCoral){
+                setkilledCoralToggle(reefhealthedit.RecentlyKilledCoral.RecentlyKilledCoral)
+            }
+            if(reefhealthedit.Sedimentation.Sedimentation){
+                setSedimentationToggle(reefhealthedit.Sedimentation.Sedimentation)
+            }
+            if (reefhealthedit.Pollutions.Pollutions) {
+                setPollutionToggle(reefhealthedit.Pollutions.Pollutions)
+                if (reefhealthedit.Pollutions.Plastic){
+                    setPlasticChecked(reefhealthedit.Pollutions.Plastic)
+                }
+                if (reefhealthedit.Pollutions.FishingGear){
+                    setFishingGearChecked(reefhealthedit.Pollutions.FishingGear)
+                }
+                if (reefhealthedit.Pollutions.Others) {
+                    setotherChecked(reefhealthedit.Pollutions.Others.Others)
+                    if (reefhealthedit.Pollutions.Others.OtherPollutionsDescription){
+                        setOtherPoluutions(reefhealthedit.Pollutions.Others.OtherPollutionsDescription)
+                    }
+                }
+            }
+
+
+        }
+
+    }, [reefhealthedit])
+
+    React.useEffect(() => {
+        parentCallback({
+            ReefHealth: {
+                Bleaching: {
+                    Bleaching: bleachingToggle,
+                    BleachingLevel: bleachingLevel},
+                CrownOfThorns: {
+                    CrownOfThorns: CrownoThornsToggle,
+                    NoOfCrownOfThorns: NoCrownothorns},
+                RecentlyKilledCoral: {
+                    RecentlyKilledCoral: killedcoralToggle},
+                Sedimentation:  {
+                    Sedimentation: sedimentationToggle},
+                Pollutions: {
+                    Pollutions: pollutionToggle,
+                    Plastic: PlasticChecked,
+                    FishingGear: fishingGearChecked,
+                    Others: {
+                        Others: othersChecked,
+                        OtherPollutionsDescription: otherPollutions},
+                }
+            }
+        })
+    }, [bleachingLevel, bleachingToggle, CrownoThornsToggle, NoCrownothorns, killedcoralToggle, sedimentationToggle, PlasticChecked, fishingGearChecked, othersChecked, otherPollutions, pollutionToggle])
     return (
         <View>
             {/*Reef Health */}
@@ -151,6 +218,7 @@ const Reefhealth = () => {
                     <Text style = {styles.labelStyles}>Bleaching</Text>
                     <TouchableOpacity onPress={() => {
                         setOverlayText('is bleaching')
+                        setoverlaysubtext('Coral bleaching is the process when corals lose their vibrant colors and turn white due to various stressors, such as changes in temperature, light, or nutrients. Bleaching occurs when coral polyps expel the algae that live inside their tissue, causing the coral to turn white.')
                         setOverlayVisible(true)}}>
                         <Feather name= "help-circle" size={20} color={COLORS.darkGray2}  style= {{padding: 5,paddingVertical: 18,}}/>
                     </TouchableOpacity>
@@ -165,7 +233,9 @@ const Reefhealth = () => {
                     </View>
 
                     <SetOverlay 
-                        text = {overlayText}/>
+                        text = {overlayText}
+                        subtext = {overlaysubtext}
+                    />
 
                     {bleachingToggle && 
                     <View style = {{borderBottomColor: COLORS.lightGray1, borderBottomWidth: 1}}>
@@ -182,6 +252,7 @@ const Reefhealth = () => {
                                 step={1}
                                 minimumValue={0}
                                 maximumValue={10}
+                                value={bleachingLevel}
                                 onValueChange={(value) => setBleachingLevel(value)}
                                 thumbTintColor={COLORS.lightblue2}
                                 minimumTrackTintColor={COLORS.lightblue3}
@@ -201,6 +272,7 @@ const Reefhealth = () => {
                             <Text style = {styles.labelStyles}>Crown of Thorns</Text>
                         <TouchableOpacity onPress={() => {
                         setOverlayText('are Crown of Thorns')
+                        setoverlaysubtext('It is a large spiky starfish of the tropical Indo-Pacific, feeding on coral and sometimes causing great damage to reefs.')
                         setOverlayVisible(true)}}>  
                             <Feather name= "help-circle" size={20} color={COLORS.darkGray2}  style= {{padding: 5,paddingVertical: 18,}}/>
                         </TouchableOpacity>
@@ -260,6 +332,7 @@ const Reefhealth = () => {
                             <Text style = {styles.labelStyles}>Recently Killed Coral</Text>
                         <TouchableOpacity onPress={() => {
                         setOverlayText('do recently killed corals look like')
+                        setoverlaysubtext('They lack a healthy color, and are sometimes covered in algae.')
                         setOverlayVisible(true)}}>
                             <Feather name= "help-circle" size={20} color={COLORS.darkGray2}  style= {{padding: 5,paddingVertical: 18,}}/>
                         </TouchableOpacity>
@@ -291,6 +364,7 @@ const Reefhealth = () => {
                             <Text style = {styles.labelStyles}>Sedimentation</Text>
                         <TouchableOpacity onPress={() => {
                         setOverlayText('is Sedimentation')
+                        setoverlaysubtext('Sedimentation is the accumulation of sediments, or dirt, on the reef which can kill corals. It can be caused by human activity or natural processes.')
                         setOverlayVisible(true)}}>
                             <Feather name= "help-circle" size={20} color={COLORS.darkGray2}  style= {{padding: 5,paddingVertical: 18,}}/>
                         </TouchableOpacity>

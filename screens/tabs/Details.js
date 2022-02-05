@@ -57,7 +57,7 @@ const Details = ({route, navigation}) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity style = {styles.buttonWrapper} onPress={() => alert('Location info coming very soon. ')}>
+                    <TouchableOpacity style = {styles.buttonWrapper} onPress={() => navigation.navigate('MapView', {item: item})}>
                         <Text style = {styles.buttonTExt}>Explore</Text>
                     </TouchableOpacity>
                 </View>

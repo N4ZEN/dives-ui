@@ -20,9 +20,9 @@ import {AuthContext} from '../../components/auth/context';
 
 import { userSignInSchema } from '../../validation/SignInValidation'
 import { auth } from '../../firebase';
-import * as Google from 'expo-google-app-auth';
-import Environment from '../../constants/Environment'
-
+import Constants from 'expo-constants'; //So we can read app.json extra
+import * as Google from 'expo-google-app-auth'; //google auth libraries
+import firebase from 'firebase'; 
 
 
 const SignIn = ({navigation}) => {
@@ -61,6 +61,33 @@ const SignIn = ({navigation}) => {
             })
             .catch(error => alert(error.message))
     }
+
+    const Glogin = async () => {
+        try {
+          //await GoogleSignIn.askForPlayServicesAsync();
+          const result = await Google.logInAsync({ //return an object with result token and user
+            iosClientId: Constants.manifest.extra.IOS_KEY, //From app.json
+            androidClientId: Constants.manifest.extra.ANDROIUD_KEY, //From app.json
+          });
+          if (result.type === 'success') {
+            console.log(result);
+            setIsLoading(true);
+            const credential = firebase.auth.GoogleAuthProvider.credential( //Set the tokens to Firebase
+              result.idToken,
+              result.accessToken
+            );
+            auth
+              .signInWithCredential(credential) //Login to Firebase
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            //CANCEL
+          }
+        } catch ({ message }) {
+          alert('login: Error:' + message);
+        }
+      };
 
     const formRef = React.useRef();
 
@@ -241,6 +268,7 @@ const SignIn = ({navigation}) => {
                 </View> 
 
                 {/*Footer */}
+                
                 <View
                  style = {{
                      marginHorizontal: 10,
@@ -248,7 +276,7 @@ const SignIn = ({navigation}) => {
                      marginTop: 35
                  }}>
                     {/*Facebook */}
-                    <TextIconButton
+                    {/* <TextIconButton
                         containerStyle={{
                             height: 50,
                             alignItems: 'center',
@@ -267,9 +295,10 @@ const SignIn = ({navigation}) => {
                             color: COLORS.white,
                         }}
                         onPress= {() => console.log("FB")}
-                    />
+                    /> */}
+
                     {/*Google */}
-                    <TextIconButton 
+                    {/* <TextIconButton 
                         containerStyle ={{
                             height: 50, 
                             alignItems: 'center',
@@ -288,8 +317,8 @@ const SignIn = ({navigation}) => {
                             marginLeft: SIZES.radius,
                             
                         }}
-                        onPress= {() => console.log('Google')}
-                     />
+                        onPress= {() => Glogin()}
+                     /> */}
                     </View>
                 </View>
             </AuthLayout>

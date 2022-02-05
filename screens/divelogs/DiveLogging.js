@@ -1,9 +1,10 @@
-import React from 'react';
-import {View, StyleSheet, Platform, Pressable, Text, Dimensions, Image, Modal} from 'react-native';
+import React, {useCallback} from 'react';
+import {View, StyleSheet, Platform, Pressable, Text, Dimensions, Image, Alert} from 'react-native';
 import {ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as SecureStore from 'expo-secure-store';
 
 
 import { COLORS, colour } from '../../assets/colors/theme';
@@ -17,7 +18,140 @@ import AdditionalData from './AdiitionalDetails';
 
 
 const Divelogging = ({navigation}) => {
+    const DIVE_LOG = 'divelog';
 
+    const [hasUnsavedChanges, sethasUnsavedChanges] = React.useState(false);
+
+    const [textDate, setTextDate] = React.useState()
+    const [divedata, setdivedata] = React.useState()
+    const [weather, setweather] = React.useState()
+    const [tankcons, settankcons] = React.useState()
+    const [reefhelth, setreefhealth] = React.useState()
+    const [marinlife, setmarinelife] = React.useState()
+    const [diveLog, setdiveLog] = React.useState()
+    const [final, setfinal] = React.useState()
+    
+
+
+    const callback = useCallback((textDate) => {
+        setTextDate(textDate);
+    }, []);
+    const callback1 = useCallback((divedata) => {
+        setdivedata(divedata);
+    }, []);
+    const callback2 = useCallback((weather) => {
+        setweather(weather);
+    }, []);
+    const callback3 = useCallback((tankcons) => {
+        settankcons(tankcons);
+    }, []);
+    const callback4 = useCallback((reefhelth) => {
+        setreefhealth(reefhelth);
+    }, []);
+    const callback5 = useCallback((marinlife) => {
+        setmarinelife(marinlife);
+    }, []);
+
+
+    const submitfunction = async(key, value) => {
+        try{
+                await SecureStore.setItemAsync(key, value); 
+
+            console.log('Successfully stored to storage')
+            //sethasUnsavedChanges(false)
+        }
+        catch(e){
+            console.log('could not access storage', e)
+            
+        }    
+    }
+
+    const onSubmit = () => {
+        submitfunction(DIVE_LOG, diveLog)
+        console.log(final) 
+        navigation.goBack();
+    }
+
+
+    function isEnabledSubmit() {
+        if(textDate && Object.keys(textDate).length !== 0){
+            return textDate.Date !== "" && textDate.StartTime !== "" && textDate.EndTime !== ""
+            && textDate.Location !== "" 
+        }else{
+            return false
+        }
+    }
+
+
+
+    function convertObjectValuesRecursive(obj, target, replacement) {
+        obj = {...obj};
+        Object.keys(obj).forEach((key) => {
+            if (obj[key] == target) {
+                obj[key] = replacement;
+            } else if (typeof obj[key] == 'object' && !Array.isArray(obj[key])) {
+                obj[key] = convertObjectValuesRecursive(obj[key], target, replacement);
+            }
+        });
+        return obj;
+    }
+    React.useEffect(() => {
+        
+        const date = new Date().toString() //To get the Current Date
+        let logtime = {CreatedOn: date}
+        let finaldata = {...logtime, ...textDate, ...divedata, ...weather, ...tankcons, ...reefhelth, ...marinlife}
+        //  const myJSON = JSON.stringify(finaldata)
+        //const jsobj = JSON.parse(myJSON)
+        const divelogjs = convertObjectValuesRecursive(finaldata, "", null)
+        setfinal(divelogjs)
+        let divelogjson = JSON.stringify(divelogjs)
+        setdiveLog(divelogjson)
+        //console.log(divelogjson)
+    }, [textDate, divedata, weather, tankcons, reefhelth, marinlife ])  
+
+    React.useEffect(() => {
+        if((!isEnabledSubmit())){
+            if(textDate && Object.keys(textDate).length !== 0 
+             && (textDate.Date !== "" || textDate.StartTime !== "" || textDate.EndTime !== "" || textDate.Location !== "" )
+            ){
+                sethasUnsavedChanges(true)
+            }
+        }
+        else{
+            sethasUnsavedChanges(false)
+        }
+    }, [textDate])
+
+    React.useEffect(
+        () =>
+          navigation.addListener('beforeRemove', (e) => {
+            if (!hasUnsavedChanges) {
+              return;
+            }
+            else if(hasUnsavedChanges){
+    
+            // Prevent default behavior of leaving the screen
+            e.preventDefault();
+    
+            // Prompt the user before leaving the screen
+            Alert.alert(
+              'Discard changes?',
+              'You have unsaved changes. Are you sure to discard them and leave the screen?',
+              [
+                {
+                text: "Yes",
+                 onPress: () => {navigation.dispatch(e.data.action)                 },
+                
+            },
+                {
+                text: "Cancel",
+                },
+                ]
+            );}
+          }),
+        [navigation, hasUnsavedChanges]
+      );
+      
 
     return (
         <ScrollView 
@@ -29,32 +163,35 @@ const Divelogging = ({navigation}) => {
                 </View>
 
                 {/*Diving Data */}
-                <Divingdata />
+                <Divingdata 
+                parentCallback={callback} />
 
                 {/*Diving Data */}
-                <AdditionalData />
+                <AdditionalData parentCallback={callback1}  />
 
                 {/*Weather Conditions */}
-                < Weatherss />
+                < Weatherss parentCallback={callback2}/>
 
                 {/*Tank Consumption */}
-                <Tankconsumption />
+                <Tankconsumption parentCallback={callback3}/>
                 
                 {/* Reef Health */}
-                <Reefhealth />
+                <Reefhealth parentCallback={callback4}/>
                 
                 {/*Marine Life */}
-                <Marinelife />
+                <Marinelife parentCallback={callback5} />
                 
                 
 
                 
                 <View style = {{paddingTop: 70, paddingBottom: 15, marginBottom: 15}}>
                     <TouchableOpacity
-                     style = {{...styles.submitbuttonWrapper}}
-                    // backgroundColor: { isEnabledSubmit() ? COLORS.lightblue2: COLORS.lightblue3}}
-                    // disabled = {isEnabledSubmit() ? false : true}
-                    onPress={() => navigation.goBack()}
+                     style = {{...styles.submitbuttonWrapper,
+                    backgroundColor:  isEnabledSubmit() ? COLORS.lightblue2: COLORS.lightblue3}}
+                    disabled = {isEnabledSubmit() ? false : true}
+                    onPress={() => {
+                        onSubmit();                     
+                    }}
                     >
                         <Text style = {styles.submitbuttonTExt}>Submit</Text>
                     </TouchableOpacity>

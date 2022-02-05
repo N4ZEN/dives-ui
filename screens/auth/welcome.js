@@ -8,7 +8,7 @@ import { COLORS } from '../../assets/colors/theme';
 const Welcome = ({navigation}) => {
     return (
         <View style= {{flex: 1,}}>
-            <ImageBackground style = {{flex: 1}} source = {require('../../assets/images/welcome.png')}>
+            <ImageBackground style = {{flex: 1}} source = {require('../../assets/images/welcome3.jpg')}>
                 <View style = {{
                     position: 'absolute',
                     top: "63%",
@@ -55,14 +55,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         borderRadius: 80,
 
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.36,
-        shadowRadius: 6.68,
-        elevation: 11,
+         //shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 5,
+        // },
+        // shadowOpacity: 0.36,
+        // shadowRadius: 6.68,
+        // elevation: 11,
     },
     createLogButtonText: {
         fontFamily: 'LatoBold',

@@ -11,7 +11,8 @@ import { COLORS, colour } from '../../assets/colors/theme';
 
 
 
-const Tankconsumption = () => {
+const Tankconsumption = ({parentCallback, TankConsumptn}) => {
+    const tankcons = TankConsumptn;
 
     const [TCVisible, setTCVisible] = React.useState(false)
     const [startpres, setStartPres] = React.useState('')
@@ -22,6 +23,7 @@ const Tankconsumption = () => {
    // const startRef = React.useRef();
   
     const [TankNo, setTankNo] = React.useState(null)
+
     const [tanksArray, setTanksArray] = React.useState([{
         tankid: 1,
         startPressure: 0,
@@ -184,8 +186,8 @@ const Tankconsumption = () => {
             <View>
                 {tanksArray.map((index, i) => {
                     return(
-                        <View>
-                        <View key={i} style ={{borderColor: COLORS.lightGray1, borderWidth: 1.5, 
+                        <View key={Math.random().toString(36).substring(2, 2+9)} >
+                        <View style ={{borderColor: COLORS.lightGray1, borderWidth: 1.5, 
                             borderRadius: 8, padding: 10, marginVertical: 5,}}>
                             <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <Text style = {{ textAlign: 'left', ...styles.diveLogHeaders}}>Tank {index.tankid}</Text>
@@ -321,12 +323,32 @@ const Tankconsumption = () => {
         )
     }
 
+    React.useEffect(() => {
+        if(tankcons && Object.keys(tankcons).length !== 0){
+            setTCVisible(true)
+           // console.log(tankcons)
+            setTanksArray(tankcons)
+        }
+    }, [tankcons])
 
 
+    React.useEffect(() => {
+        if(
+            tanksArray.length === 1 && 
+            // tanksArray[0].tankid === '1' && 
+            tanksArray[0].startPressure === 0 &&
+            tanksArray[0].startPrespsi === 0 &&
+            tanksArray[0].endpresure=== 0 &&
+            tanksArray[0].endPrespsi === 0 &&
+            tanksArray[0].tanktype=== '')
+            {
+            parentCallback({Tankconsumption: null})
+        } else{
+            parentCallback({Tankconsumption: tanksArray})
+        }
+     }, [tanksArray, currentTanks])
 
-    // React.useEffect (() => {
-    //     console.log(startpres)
-    // }, [handleChangestart])
+
     // React.useEffect (() => {
     //     let calpsiend =  Math.round(((Number(endpres)*14.5038)  + Number.EPSILON) * 1) / 1
     //     setPresConv2(calpsiend)

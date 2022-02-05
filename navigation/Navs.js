@@ -10,17 +10,18 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 
-import Home2 from '../screens/home2';
 
 import Home from '../screens/tabs/Home';
 import Details from '../screens/tabs/Details';
 import Liked from '../screens/tabs/Liked';
 import Profile from '../screens/tabs/Profile';
-import InviteFriends from '../screens/tabs/inviteFriends';
 import Explore from '../screens/tabs/Explore';
+import LearnMore from '../screens/tabs/LearnMore';
+import MapView from '../screens/tabs/MapView';
 
 import Settings from '../screens/drawer/settings';
 import About from '../screens/drawer/About';
+import FAQs from '../screens/drawer/FAQs';
 import ProfileScreen from '../screens/drawer/profileScreen';
 import PhotoUpload from '../screens/drawer/PhotoUpload';
 import Drawerscreen from '../screens/drawer/Drawerscreen';
@@ -29,6 +30,10 @@ import Drawerscreen from '../screens/drawer/Drawerscreen';
 
 //import Divelogging from '../screens/divelogs/DiveLogging';
 import Divelogging from '../screens/divelogs/DiveLogging';
+import DiveEditing from '../screens/divelogs/DiveEditing';
+import MapUse from '../screens/divelogs/MapUse';
+import Divingdata from '../screens/divelogs/DivingData';
+import Share from '../screens/divelogs/Share';
 
 import LoadingScreen from '../screens/loadingScreen';
 import Splashscreen from '../screens/splashscreen';
@@ -51,6 +56,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import Photos from '../screens/drawer/PhotoUpload';
 
 
 const Stack = createStackNavigator();
@@ -236,12 +242,15 @@ const AuthStack = () => {
     )
 }
 
+
+
+
 {/*Main screens */}
 const FriendStack = () => {
     return(
         <Stack.Navigator initialRouteName = 'Profile'>
           <Stack.Screen name = "Profile" component = {Profile} options = {{headerShown: false}}/>
-          <Stack.Screen name = "inviteFriends" component = {InviteFriends} options = {{headerShown: false}}/>
+          {/* <Stack.Screen name = "inviteFriends" component = {InviteFriends} options = {{headerShown: false}}/> */}
         </Stack.Navigator>
     )
 };
@@ -257,10 +266,12 @@ const FriendStack = () => {
 
 const TabNavigator = () => {
     return(
-        <Tab.Navigator screenOptions = {{
-            style: styles.tabBar,
+        <Tab.Navigator 
+        screenOptions = {{
+            tabBarStyle: styles.tabBar,
             headerShown: false,
             showLabel: true,
+            
         }}>
             <Tab.Screen name = "Home" component={Home} 
                 options={{
@@ -285,15 +296,15 @@ const TabNavigator = () => {
                         {fontSize: 8, paddingBottom: 0}}>{focused ? "Dive Logs" : null}</Text>
                       }
             }}/> 
-            <Tab.Screen name = "Dive Buddies" component={FriendStack}
+            <Tab.Screen name = "Photos" component={Photos}
                 options={{
                 tabBarIcon: ({focused, color}) => (
-                    <MaterialIcon name="people" size={32} color={focused? COLORS.darkpink1: COLORS.gray2}  
+                    <MaterialIcon name="collections" size={32} color={focused? COLORS.darkpink1: COLORS.gray2}  
                     style = {focused? {paddingTop: 2}: {paddingTop: 10,}}/>
                 ),
                 tabBarLabel: ({ focused}) => {
                     return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.pink, paddingBottom: 3,}: 
-                    {fontSize: 8, paddingBottom: 0}}>{focused ? "Dive Buddies" : null}</Text>
+                    {fontSize: 8, paddingBottom: 0}}>{focused ? "Photos" : null}</Text>
                 }
             }}/>
         </Tab.Navigator>
@@ -306,7 +317,16 @@ const MainStack = () => {
             <Stack.Screen name = "TabNavigator" component = {TabNavigator} options = {{headerShown: false}}/>
             <Stack.Screen name = "Details" component = {Details} options = {{headerShown: false}}/>
             <Stack.Screen name = "Explore" component = {Explore} options = {{headerShown: false}}/>
+            <Stack.Screen name = "LearnMore" component = {LearnMore} options = {{headerShown: false}}/>
+            <Stack.Screen name = "MapUse" component = {MapUse} options = {{headerShown: false}}/>
+            <Stack.Screen name = "MapView" component = {MapView} options = {{headerShown: false}}/>
+            <Stack.Screen name = "DivingData" component = {Divingdata} options = {{headerShown: false}}/>
+            <Stack.Screen name = "Share" component = {Share} options = {{headerShown: false}}/>
             <Stack.Screen name = "Dive Log" component = {Divelogging} options = {{headerShown: true,
+            headerTitleStyle :{color: COLORS.black},
+            headerTintColor: COLORS.black,
+            }}/>
+            <Stack.Screen name = "Dive Edit" component = {DiveEditing} options = {{headerShown: true,
             headerTitleStyle :{color: COLORS.black},
             headerTintColor: COLORS.black,
             }}/>
@@ -337,7 +357,8 @@ const DrawerScreenss = ({navigation, style}) => {
                      >{props => <MainStack {...props} />}</Stack.Screen> 
             
             <Stack.Screen name="ProfileScreen" options = {{headerShown: false}}>{props => <ProfileScreen {...props} />}</Stack.Screen> 
-            <Stack.Screen name="Photos" options = {{headerShown: false}}>{props => <PhotoUpload {...props} />}</Stack.Screen> 
+            <Stack.Screen name="Profile" options = {{headerShown: false}}>{props => <Profile {...props} />}</Stack.Screen> 
+            <Stack.Screen name="FAQs" options = {{headerShown: false}}>{props => <FAQs {...props} />}</Stack.Screen> 
             <Stack.Screen name="About" options = {{headerShown: false}}>{props => <About {...props} />}</Stack.Screen>
             <Stack.Screen name="Settings" options = {{headerShown: false}}>{props => <Settings {...props} />}</Stack.Screen>
         </Stack.Navigator>
@@ -401,7 +422,9 @@ const styles = StyleSheet.create({
     tabBar: {
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-
+        paddingTop: 5,
+        marginTop: -20
+        // backgroundColor: COLORS.lightblue4
     },
     stack: {
         flex: 1,

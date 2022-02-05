@@ -46,7 +46,7 @@ import { auth } from '../../firebase'
                 const user = userCredentails.user;
                 console.log('Registered with:', user.email);
                 signUp();
-                navigation.navigate("Otp");
+                navigation.navigate("SignIn");
             })
             // .onAuthStateChanged((user=> {
             //     if (user) {
@@ -298,13 +298,13 @@ import { auth } from '../../firebase'
                         </View>
     
                     {/*Footer */}
-                    <View
+                    {/* <View
                     style = {{
                         marginHorizontal: 10,
                         marginVertical: 15,
-                    }}>
+                    }}> */}
                         {/*Facebook */}
-                        <TextIconButton
+                        {/* <TextIconButton
                             containerStyle={{
                                 height: 50,
                                 alignItems: 'center',
@@ -323,9 +323,9 @@ import { auth } from '../../firebase'
                                 color: COLORS.white
                             }}
                             onPress= {() => console.log("FB")}
-                        />
+                        /> */}
                         {/*Google */}
-                        <TextIconButton 
+                        {/* <TextIconButton 
                             containerStyle ={{
                                 height: 50, 
                                 alignItems: 'center',
@@ -346,8 +346,8 @@ import { auth } from '../../firebase'
                             }}
                             onPress= {() => console.log("Google")}
                          />
+                        </View> */}
                         </View>
-                    </View>
             </AuthLayout>
         );
     }

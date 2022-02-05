@@ -8,11 +8,11 @@ import { Overlay } from 'react-native-elements';
 
 import { COLORS,  colour } from '../../assets/colors/theme';
 import CompassImage from '../../assets/images/compass2.png'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 
-const Weather = () => {
+const Weather = ({parentCallback, WeatherConditions}) => {
+    const WeatherConditiond = WeatherConditions
     {/*Condition */}
     const [conditionsVisible, setConditionsVisible] = React.useState(false)
     const [seaStateVisible, setSeaStateVisible] = React.useState(false)
@@ -41,6 +41,30 @@ const Weather = () => {
             setVisibility('20+ m' )
         }
     }
+
+    React.useEffect(() => {
+        if(WeatherConditiond){
+            setConditionsVisible(true)
+             setWeather(WeatherConditiond.WeatherCondition.Weather)
+             setDirSelected(WeatherConditiond.WeatherCondition.CurrentDirection)
+             setSeaState(WeatherConditiond.WeatherCondition.SeaState)
+             setVisibility(WeatherConditiond.WeatherCondition.Visibility)
+             setCurrentSpeed(WeatherConditiond.WeatherCondition.CurrentSpeed)
+        }
+       
+    }, [WeatherConditiond])
+
+    React.useEffect(() =>{
+        parentCallback({
+            WeatherCondition: {
+                Weather: Weather,
+                CurrentDirection: dirSelected,
+                SeaState: seaState,
+                Visibility: visibiltiy,
+                CurrentSpeed: currentSpeed, 
+            }}
+        )
+    }, [Weather, dirSelected, seaState, visibiltiy, currentSpeed])
 
     return (
         <View>

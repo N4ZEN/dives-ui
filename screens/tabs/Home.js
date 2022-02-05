@@ -16,7 +16,6 @@ import {COLORS, colour} from '../../assets/colors/theme';
 import activitiesData from '../../assets/data/activitiesData';
 import discoverData from '../../assets/data/discoverData';
 import learnMoreData from '../../assets/data/learnMoreData';
-import discoverCatagoriesData from '../../assets/data/discoverCatagoriesData';
 import profile from '../../assets/images/profile.png' ;
 import menu from '../../assets/icons/menu.png';
 //import ProfileImage from '../../components/profileImage'
@@ -81,7 +80,7 @@ const Home = ({navigation}) => {
 
     const renderLearnMoreItem = ({item}) => {
         return(
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('LearnMore', {item:item,})}>
 
             <ImageBackground
                 source = {item.image}
@@ -216,6 +215,7 @@ const styles = StyleSheet.create({
     homeContainer: {
         flex:1,
         color: colour.white,
+        marginBottom: 20,
     },
     menuWrapper: {
         marginRight: 20,
@@ -358,6 +358,7 @@ const styles = StyleSheet.create({
     learnMoreItemText: {
         fontFamily: 'LatoBold',
         fontSize: 18,
+        textTransform: 'capitalize',
         color: colour.white,
         marginHorizontal: 10,
         marginVertical: 20,

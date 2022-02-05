@@ -15,7 +15,7 @@ const activitiesData = [
     },
     {
         id: 'activites-3',
-        title: 'CORALS',
+        title: 'CORAL',
         image: require('../icons/coral.png'),
         color: "#ff8366",
     },

@@ -1,8 +1,8 @@
 const discoverData = [
     {
       id: 'discover-1',
-      title: 'Koahttey',
-      location: 'Hithadhoo, Addu',
+      title: 'Hithadhoo Beyru',
+      location: 'Seenu Atoll',
       image: require('../images/location1-small.jpg'),
       imageBig: require('../images/location1.jpg'),
       description:
@@ -13,8 +13,8 @@ const discoverData = [
     },
     {
       id: 'discover-2',
-      title: 'Uthuru',
-      location: 'Haa Atoll',
+      title: 'Huraa Faru',
+      location: 'Haa Alifu Atoll',
       image: require('../images/location2.jpg'),
       imageBig: require('../images/location2.jpg'),
       description:
@@ -25,7 +25,7 @@ const discoverData = [
     },
     {
       id: 'discover-3',
-      title: 'Dhekunu',
+      title: 'Golden wall',
       location: 'Vaavu Atoll',
       image: require('../images/location3.jpg'),
       imageBig: require('../images/location3.jpg'),

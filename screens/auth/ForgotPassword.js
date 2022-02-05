@@ -8,6 +8,8 @@ import { COLORS, SIZES, colour } from '../../assets/colors/theme';
 import AuthLayout from '../../components/auth/AuthLayout';
 import AuthformInput from '../../components/auth/AuthformInput';
 import TextButton from '../../components/auth/TextButton';
+import { auth } from '../../firebase';
+
 
 
 
@@ -27,6 +29,20 @@ const ForgotPassword = ({navigation}) => {
         navigation.goBack()
     }
 
+    const forgotPassword = (Email) => {
+        auth.sendPasswordResetEmail(email)
+          .then(function (user) {
+            alert('Link to reset email has been sent to ' + email)
+            navigation.goBack()
+          }).catch(function (e) {
+            alert(e)
+          })
+      }
+
+      React.useEffect(() => {
+
+      }, [email])
+
     return (
         <AuthLayout 
         title = "Password Recovery"
@@ -45,7 +61,7 @@ const ForgotPassword = ({navigation}) => {
                         label = "Email"
                         keyboardType = "email-address"
                         autoCompleteType = "email"
-                        onChange = {(value) => {
+                        onChangeText= {(value) => {
                            // Utils.validateEmail(value, setEmailError)
                             setEmail(value)
                         }}
@@ -72,7 +88,10 @@ const ForgotPassword = ({navigation}) => {
                backgroundColor: isEnabledEmail() ? COLORS.pink : COLORS.lightpink,
                marginHorizontal: 10,
            }}
-           onPress={() => {SendEmailPress()}}
+           onPress={() => {
+               console.log(email)
+               forgotPassword(email)
+        }}
             />
             <TextButton 
            label = "Cancel"

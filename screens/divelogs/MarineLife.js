@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Modal, Text, Dimensions, Image, Switch, 
-    Card, FlatList, TextInput, SafeAreaView, ImageBackground, Pressable} from 'react-native';
+    Card, FlatList, TextInput, SafeAreaView, ImageBackground, Pressable, LogBox, EdgeInsetsPropType} from 'react-native';
 import { TouchableOpacity as TouchableOpacit} from 'react-native';
 import FAB from 'react-native-fab'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -13,7 +13,9 @@ import Uplaodphoto from '../../components/divelogs/uplaodphoto';
 import { COLORS, colour } from '../../assets/colors/theme';
 import SpeciesData from '../../assets/data/species';
 
-const Marinelife = () => {
+const Marinelife = ({parentCallback, MarineLifee}) => {
+    const mledit = MarineLifee;
+
     const [mlVisible, setmlVisible] = React.useState(false)
     const [rareSpeciesToggle, setRareSpeciesToggle] = React.useState(false)
     const [rarespeciesInput, setRareSpeciesInput] = React.useState('')
@@ -26,7 +28,9 @@ const Marinelife = () => {
     const [speciesOverlayItem, setSpeciesOverlayItem] = React.useState({})
 
 
-
+    LogBox.ignoreLogs([
+        'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
+    ]);
     {/*Search filter in list */}
     const [search, setsearch] = React.useState('')
     const [masterData, setmasterData] = React.useState(SpeciesData)
@@ -51,8 +55,11 @@ const Marinelife = () => {
 
     function setSelectedUpdate(item) {
         if (item.selected === true) {
-                userSelected.push(item)
-        } else if (item.selected == false) {
+          //  var newArray = userSelected.filter((obj) => obj.id === item.id);
+          let  newArray = userSelected.concat(item)
+                //nwarr.concat(item)
+                setUserSelected(newArray)
+        } else if (item.selected === false) {
             var newArray = userSelected.filter((obj) => obj.id !== item.id);
             setUserSelected(newArray);
         }
@@ -79,7 +86,8 @@ const Marinelife = () => {
 
     const onChangeValue= (item) => {
         {item.selected? item.selected = false: item.selected = true}
-        setformatData(item)      
+     //   setformatData(item)     
+    //    console.log(item) 
         setSelectedUpdate(item)
     }
     const handleMLVisibility = () => {
@@ -105,14 +113,14 @@ const Marinelife = () => {
                     <Text style = {{...styles.labelStyles, color: COLORS.darkGray, paddingTop: 20, fontSize: 17}}>{item.Name}</Text>                           
                 </View>
                 <CheckBox
-                    checked = {formatData.selected}
+                    checked = {item.selected}
                     value={item.selected}
-                    onValueChange={() => {
-                    onChangeValue(item)}}
+                    onValueChange={() => onChangeValue(item)}
                     style={{alignSelf: 'center', padding: 10, marginRight: 10}}
                 />
 
-                {/* {speciesOverlayVisible && 
+                {/* 
+                {speciesOverlayVisible && 
                     <View>
                         <Overlay isVisible={speciesOverlayVisible} 
                             onBackdropPress={() => {setSpeciesOverlayVisible(false)}}
@@ -143,6 +151,60 @@ const Marinelife = () => {
             setRareSpeciesInput('')
         }
     }, [rareSpeciesToggle])
+
+    React.useEffect(() => {
+        if(mledit && Object.keys(mledit).length !== 0){
+           // console.log(mledit)
+            if (mledit.MarineLife && Object.keys(mledit.MarineLife).length !== 0){
+                setmlVisible(true)
+                let newarr = mledit.MarineLife
+                newarr.forEach((item, index) => {
+                    if(item.selected === true) {
+                        let arr = species;
+                        var i = arr.findIndex(o => o.id === item.id);
+                        if (arr[i]) { arr[i] = item } else { arr.push(item) };
+                        setspecies(arr)
+                    }
+                });   
+                
+                setUserSelected(mledit.MarineLife)
+            }
+            if (mledit.RareSpecies.RareSpecies) {
+                setRareSpeciesToggle(mledit.RareSpecies.RareSpecies)
+                if(mledit.RareSpecies.RareSpeciesTypes) {
+                    setRareSpeciesInput(mledit.RareSpecies.RareSpeciesTypes)
+                }
+            }
+
+        }
+    }, [mledit])
+
+    React.useEffect(() => {
+    //   console.log(userSelected)
+        parentCallback({
+            MarineLife: userSelected,
+            RareSpecies: {
+                RareSpecies: rareSpeciesToggle,
+                RareSpeciesTypes: rarespeciesInput,
+            }
+        })
+    }, [userSelected, rareSpeciesToggle, rarespeciesInput])
+
+    React.useEffect(() => {
+        if(mledit === undefined) {
+            const result = species.map(({selected, ...rest}) => ({...rest}));
+           // console.log(result)
+            setspecies(result)
+        }
+        
+    }, [])
+
+    React.useEffect(() => {
+        //console.log(species)
+    }, [species])
+
+
+  
 
     return (
         <View>
@@ -184,8 +246,8 @@ const Marinelife = () => {
                         </View>
                         <View>
                             <TextInpu
-                                Style = {{...styles.input, padding: 10, margin: 20, 
-                                    marginHorizontal: 20, fontSize: 18 }}
+                                style = {{...styles.input, padding: 10, margin: 20, 
+                                    marginHorizontal: 20, fontSize: 16 }}
                                 value = {search}
                                 placeholder = "    Search Here... "
                                 underlineColorAndroid = 'transparent'
@@ -209,8 +271,11 @@ const Marinelife = () => {
                         <View style = {{position: 'absolute',
                             bottom: 5,
                             right:2}}>
-                            <FAB  buttonColor={COLORS.lightblue2} 
-                            onClickAction={() => setopenspecies(false)}
+                            <FAB  
+                            
+                            buttonColor={COLORS.lightblue2} 
+                            onClickAction={() => setopenspecies(false)
+                            }
                             visible={true} 
                             iconTextComponent={<Feather name="check" color= {COLORS.white} size ={24}/>} />
                         </View>

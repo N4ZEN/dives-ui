@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions, Pressable, Text} from 'react-native';
+import {View, StyleSheet, Dimensions, Pressable, Text, TextInput} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import { DrawerActions } from '@react-navigation/native';
@@ -10,6 +10,13 @@ import { auth } from '../../firebase';
 
 
 const Profilescreen = ({navigation}) => {
+
+    const [username, setusername] =React.useState('Naza Zuhair');
+    const [editprofile, seteditprofile] =React.useState(false);
+
+    const toggleeditprofile = () => seteditprofile(previousState => !previousState)
+
+
     return (
         <View style = {{flex: 1, backgroundColor: COLORS.lightGray2, padding: 10}}>
             <View style = {styles.optionsWrapper}>
@@ -34,7 +41,7 @@ const Profilescreen = ({navigation}) => {
                         {backgroundColor: pressed? COLORS.lightGray1 : null},
                         {borderRadius: pressed? 20 : null}
                     ]} 
-                        // onPress= {() => navigation.goBack()}
+                         onPress= {() => toggleeditprofile()}
                     >
                         <Feather name='edit-2' size={25} color={colour.white} />
                     </Pressable>      
@@ -44,7 +51,14 @@ const Profilescreen = ({navigation}) => {
                 </View>
                 <View>
                     <Text style={styles.subHeader}>{auth.currentUser?.email}</Text>
-                    <Text style={styles.Header}>Naza Zuhair</Text>
+                    <TextInput
+                        style = {{...styles.Header, backgroundColor: editprofile? COLORS.darkGray:  null,}}
+                        
+                        onChangeText={text => setusername(text)}
+                        value={username}
+                        editable= {editprofile}
+
+                    />
                 </View>
             </View>
             <View>
@@ -75,9 +89,9 @@ const Profilescreen = ({navigation}) => {
                             {backgroundColor: pressed? COLORS.darkGray3 : COLORS.lightGray1},
                             {borderRadius: 20 }
                         ]}
-                        onPress={() => navigation.navigate('Dashboard', {screen: 'TabNavigator', params: { screen: 'Dive Buddies'}})}>
+                        onPress={() => navigation.navigate('Profile')}>
                             <Feather name = "users" size = {30} color={COLORS.darkGray2}/>
-                            <Text style={{...styles.subHeader, color: COLORS.darkGray2, fontSize: 14}}>Buddies</Text>
+                            <Text style={{...styles.subHeader, color: COLORS.darkGray2, fontSize: 14}}>Invite Friends</Text>
                     </Pressable>
                 </View>
             </View>
@@ -141,6 +155,10 @@ const styles = StyleSheet.create({
         fontSize:28,
         color: COLORS.white,
         textAlign: 'center',
+        alignSelf: 'center',
+        padding: 10,
+        borderRadius: 6,
+        width: 250,
     },
     subHeader: {
         fontFamily: 'LatoBold',
