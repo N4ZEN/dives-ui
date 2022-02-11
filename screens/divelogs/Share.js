@@ -58,14 +58,16 @@ const Share = ({route, navigation}) => {
         <ViewShot
             ref = {viewShot}
             options={{ format: "jpg", quality: 0.9 }}
-            style={{flex:1}}
+            style={{flex:1, borderRadius: 10,}}
             >
-            <LinearGradient style={styles.detailsContainer} colors={colorsch? ['#ACBAE5', '#65D4E3'] : ['#ACBAE5', '#65D4E3']}>
-                <View style={{position: 'absolute', left: 15, top: 15,}}>
-                    <Text style={{color: COLORS.darkGray2}}>My Dive Log</Text>
+                <ImageBackground 
+                style = {{flex: 1, backgroundColor: "#1F2037", }} source = {require('../../assets/images/share.jpg')} >
+                                    <View style={{position: 'absolute', left: 15, top: 15,}}>
+                    <Text style={{color: COLORS.black}}>My Dive Log</Text>
 
-                </View>
-                    <Image source={mapshare} style={{height: 120, width: Dimensions.get("window").width, resizeMode: 'contain' }}/>
+                </View >
+                <View style={{height: 120}}></View>
+                    {/* <Image source={mapshare} style={{height: 120, width: Dimensions.get("window").width, resizeMode: 'contain' }}/> */}
                  <View style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', top: 100,}}>
                     <Text style={{fontFamily: 'LatoBold', fontSize: 19, color: COLORS.black, textAlign: 'center', textTransform: 'capitalize'}}>{item.Location.Name}</Text>
                     <Rating 
@@ -96,8 +98,8 @@ const Share = ({route, navigation}) => {
                 <View style={{marginLeft: 30, marginRight: 30, marginTop: 110,}}>                
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingVertical: 2}}>
                     <Entypo name='location-pin' size = {20} color={COLORS.white} />
-                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray2, width: 180, textTransform: 'capitalize', }} ellipsizeMode='tail' numberOfLines={1}>{item.Location.Atoll}</Text>
-                        <Text style={{fontFamily: 'LatoRegular', fontSize: 17, color: COLORS.darkGray2}}> | </Text>
+                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.lightGray2, width: 180, textTransform: 'capitalize', }} ellipsizeMode='tail' numberOfLines={1}>{item.Location.Atoll}</Text>
+                        <Text style={{fontFamily: 'LatoRegular', fontSize: 17, color: COLORS.black}}> | </Text>
                         <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray2}}>{item.Date}</Text>
                         <View>
                             <Image source={flag} style={{width: 30, height: 17, resizeMode: 'contain'}}/>
@@ -138,7 +140,7 @@ const Share = ({route, navigation}) => {
                         </View>
                     </View>
                     
-                    <View style= {{flexDirection: 'row', justifyContent: 'space-between', marginTop: 0, paddingHorizontal: 20, paddingVertical: 30, 
+                    <View style= {{flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 0, paddingHorizontal: 20, paddingVertical: 30, 
                     borderTopWidth: 0.3, borderColor: COLORS.darkGray2,  }}>
                         {(item.MaxDepth !== null) &&
                         <View >
@@ -171,23 +173,8 @@ const Share = ({route, navigation}) => {
                             </View>
                         </View>}
                     </View>
-                    
-                </View>
-            </LinearGradient>
-            <ImageBackground source= {sharemaps}
-                style={styles.backgroundImage}>
-                    <View style={{position: 'absolute', right: 10, bottom: 10, alignItems: 'flex-end'}}>
-                        <Image source={qrcode} style={{height: 70, width:60, resizeMode: 'contain' , paddingRight: 5}}/>
-                        <Text style={{fontFamily: 'LatoRegular', fontSize: 12, color: COLORS.darkGray3}}>By SIGS Maldives</Text>
                     </View>
-                    <View style={{position: 'absolute', left: 10, bottom: 10, flexDirection: 'row'}}>
-                        <Image source={logoshare} style={{height: 70, width:60, resizeMode: 'contain' }}/>
-                        <View style={{paddingLeft: 10, alignItems: 'baseline', paddingTop:12}}>
-                            <Text style={{fontFamily: 'LatoBold', fontSize: 16, color: COLORS.darkGray3}}>Dives MV</Text>
-                            <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkGray3}}>Log your dives, Anytime, Anywhere</Text>
-                        </View>
-                    </View>
-            </ImageBackground>
+                </ImageBackground>
             </ViewShot>
             <View style = {{position: 'absolute',
                 bottom: 15,
@@ -199,6 +186,7 @@ const Share = ({route, navigation}) => {
                     iconTextComponent={<Entypo name="share" color= {COLORS.white} size ={40}/>}
                 />
             </View>
+            
         </View>
     );
 }
@@ -224,12 +212,13 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         width: Dimensions.get("window").width-30,
         
-        backgroundColor: '#90C0DB', 
+        // backgroundColor: '#90C0DB', 
       // backgroundColor: COLORS.lightGray,
        backgroundColor: 'rgba(173, 235, 246, 0.3)',
        // opacity: 0.3,
-        //borderColor: COLORS.white,
-        //borderWidth: 0.5,
+        borderColor: COLORS.darkGray2,
+        
+        borderWidth: 1.5,
         borderRadius:25,
         marginHorizontal: 10, 
         zIndex: 1

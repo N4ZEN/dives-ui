@@ -49,6 +49,24 @@ const Photos = ({navigation}) => {
         }
     } 
 
+    const sortdivelogs = (selected) => {
+        if (selected === 'Location') {
+            let sortedlocation = divelogs.sort((a, b) => a.Location.Name.localeCompare(b.Location.Name)).reverse()
+            setOrderDivelogs(sortedlocation)
+        } else if (selected === 'Dive Date') {
+            let sortedDate = divelogs.sort((a, b) => a.Date.localeCompare(b.Date))
+            setOrderDivelogs(sortedDate)
+        } else if (selected === 'Divelog Date') {
+            let sortedDive = divelogs.sort((a, b) => Date.parse(a.CreatedOn) - Date.parse(b.CreatedOn)).reverse()
+            setOrderDivelogs(sortedDive)
+        }  
+        else {
+            console.log('hello')
+        }
+        setSelectedLanguage(selected)    
+    }
+
+
 
     const pickerenabled = () => {
         if (orderdivelogs) {
@@ -114,10 +132,11 @@ const Photos = ({navigation}) => {
                     enabled={pickerenabled()}
                         selectedValue={selectedLanguage}
                         onValueChange={(itemValue) =>
-                            setSelectedLanguage(itemValue)
+                            {setSelectedLanguage(itemValue)
+                            sortdivelogs(itemValue)}
                         }>
-                        <Picker.Item label="Date" value="Date" />
-                        <Picker.Item label="Dive" value="Dive" />
+                        <Picker.Item label="Divelog Date" value="Divelog Date" />
+                        <Picker.Item label="Dive Date" value="Dive Date" />
                         <Picker.Item label="Location" value="Location" />
                     </Picker>
                 </View>
@@ -126,9 +145,12 @@ const Photos = ({navigation}) => {
                         <MaterialIcons name = "view-list" size={34} 
                         color={selectedView === 'list'? COLORS.lightblue1: COLORS.darkGray1} style= {{alignSelf: 'center'}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedView('grid')}>
+                    <TouchableOpacity 
+                    // disabled={true}
+                    onPress={() => setSelectedView('grid')}>
                         <MaterialIcons name = "apps" size={30}
                          color={selectedView === 'grid'? COLORS.lightblue1: COLORS.darkGray1}style= {{alignSelf: 'center'}} />
+                        {/* color={COLORS.lightblue1}style= {{alignSelf: 'center'}} /> */}
                     </TouchableOpacity>
                 </View>
                 </View>

@@ -154,7 +154,7 @@ const Marinelife = ({parentCallback, MarineLifee}) => {
 
     React.useEffect(() => {
         if(mledit && Object.keys(mledit).length !== 0){
-           // console.log(mledit)
+           setmlVisible(true)
             if (mledit.MarineLife && Object.keys(mledit.MarineLife).length !== 0){
                 setmlVisible(true)
                 let newarr = mledit.MarineLife

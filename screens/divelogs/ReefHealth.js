@@ -17,7 +17,7 @@ const Reefhealth = ({parentCallback, RefHealth}) => {
 
     const [RfHVisible, setRfHVisible] = React.useState(false)
     
-    const [bleachingLevel, setBleachingLevel] = React.useState('')
+    const [bleachingLevel, setBleachingLevel] = React.useState(0)
     const [NoCrownothorns, setNoofCrownoThorns] = React.useState('')
     const [killedCoral, setkilledcoral] = React.useState('')
     const [sedimentation, setsedimentation] = React.useState('')
@@ -134,6 +134,7 @@ const Reefhealth = ({parentCallback, RefHealth}) => {
 
     React.useEffect(() => {
         if(reefhealthedit && Object.keys(reefhealthedit).length !== 0){
+            setRfHVisible(true)
             //console.log(reefhealthedit)
             if (reefhealthedit.Bleaching.Bleaching){
                 setbleachingToggle(reefhealthedit.Bleaching.Bleaching)
@@ -173,6 +174,12 @@ const Reefhealth = ({parentCallback, RefHealth}) => {
         }
 
     }, [reefhealthedit])
+
+    React.useEffect(() => {
+        if (bleachingToggle === false) {
+            setBleachingLevel(0)
+        }
+    }, [bleachingToggle])
 
     React.useEffect(() => {
         parentCallback({
@@ -253,7 +260,8 @@ const Reefhealth = ({parentCallback, RefHealth}) => {
                                 minimumValue={0}
                                 maximumValue={10}
                                 value={bleachingLevel}
-                                onValueChange={(value) => setBleachingLevel(value)}
+                                onSlidingComplete={(value) => setBleachingLevel(value)}
+                                //onValueChange={(value) => setBleachingLevel(value)}
                                 thumbTintColor={COLORS.lightblue2}
                                 minimumTrackTintColor={COLORS.lightblue3}
                                 maximumTrackTintColor="#000000"

@@ -79,7 +79,7 @@ const Liked = ({navigation}) => {
         } else if (selected === 'Dive Date') {
             let sortedDate = divelogs.sort((a, b) => a.Date.localeCompare(b.Date))
             setOrderDivelogs(sortedDate)
-        } else if (selected === 'Date Created') {
+        } else if (selected === 'DiveLog Date') {
             let sortedDive = divelogs.sort((a, b) => Date.parse(a.CreatedOn) - Date.parse(b.CreatedOn)).reverse()
             setOrderDivelogs(sortedDive)
         }  
@@ -279,7 +279,7 @@ const Liked = ({navigation}) => {
                                     onValueChange={(itemValue) =>
                                         sortdivelogs(itemValue)
                                     }>
-                                    <Picker.Item label="Date Created" value="Date Created" />
+                                    <Picker.Item label="DiveLog Date" value="DiveLog Date" />
                                     <Picker.Item label="Dive Date" value="Dive Date" />
                                     <Picker.Item label="Location" value="Location" />
                                 </Picker>
