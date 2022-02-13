@@ -174,13 +174,22 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
             if(editdivedata.DiveType.driftdive){
                 setDrift(editdivedata.DiveType.driftdive)
             }            
-            setMaxDepth(editdivedata.MaxDepth)
-            setAvgDepth(editdivedata.AvgDepth)
+            setMaxDepth(editdivedata.Depth.MaxDepth)
+            setAvgDepth(editdivedata.Depth.AvgDepth)
+            if (editdivedata.Depth.DepthUnit) {
+                setmft(editdivedata.Depth.DepthUnit)
+            }
             setTextTime(editdivedata.BottomTime)
-            setAirTemp(editdivedata.AirTemperature)
-            setSurfTemp(editdivedata.SurfaceTemperature)
-            setBottomTemp(editdivedata.BottomTemperature)
-            setWeights(editdivedata.Weights)
+            setAirTemp(editdivedata.Temperature.AirTemperature)
+            setSurfTemp(editdivedata.Temperature.SurfaceTemperature)
+            setBottomTemp(editdivedata.Temperature.BottomTemperature)
+            if (editdivedata.Temperature.TempUnit) {
+                setcf(editdivedata.Temperature.TempUnit)
+            }
+            setWeights(editdivedata.Weight.Weights) 
+            if(editdivedata.Weight.WeightUnit) {
+                setkl(editdivedata.Weight.WeightUnit)
+            }
             setRating(editdivedata.DiveRating)
             setDescription(editdivedata.Description)
         }
@@ -188,6 +197,10 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
 
     React.useEffect(() => {
         let divetype = {}
+        let unit = ''
+        let tempunt= ''
+        let weightunt = ''
+
         if(night === true){
             divetype = {...divetype, nightdive: true}
         }
@@ -203,16 +216,40 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
         if(drift === true){
             divetype = {...divetype, driftdive: true}
         }
+        if (maxDepth !== '' || avgDepth !== '') {
+            unit = mft
+        } else {
+            unit = ''
+        }
+        if (airTemp !== '' || surfTemp !== '' || bottomTemp !== '') {
+            tempunt = cf
+        } else {
+            tempunt = ''
+        }
+        if (weights !== '') {
+            weightunt = kl
+        }else {
+            weightunt = ''
+        }
         //console.log(divetype)
         parentCallback({
             DiveType: divetype,
-            MaxDepth: maxDepth,
-            AvgDepth: avgDepth,
+            Depth: {
+                MaxDepth: maxDepth,
+                AvgDepth: avgDepth,
+                DepthUnit: unit,
+            },
             BottomTime: textTime,
-            AirTemperature: airTemp ,
-            SurfaceTemperature: surfTemp,
-            BottomTemperature: bottomTemp,
-            Weights: weights,
+            Temperature: {
+                AirTemperature: airTemp ,
+                SurfaceTemperature: surfTemp,
+                BottomTemperature: bottomTemp,
+                TempUnit: tempunt, 
+            },
+            Weight:{
+                Weights: weights,
+                WeightUnit: weightunt,
+            },
             DiveRating: rating,
             Description: description,
         })
@@ -303,8 +340,8 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                         {
                             <TouchableOpacity onPress = {() => handleDepthConv()} 
                                 style = {{flexDirection : 'row', paddingVertical: 15,}} >
-                                <Text style = {(mft == 'feet') ? styles.mftgray : styles.mftblack}> m</Text>
-                                <Text style = {(mft == 'meters') ? styles.mftgray : styles.mftblack}>/ft</Text>
+                                <Text style = {(mft === 'feet') ? styles.mftgray : styles.mftblack}> m</Text>
+                                <Text style = {(mft === 'meters') ? styles.mftgray : styles.mftblack}>/ft</Text>
                             </TouchableOpacity>
                         } 
                     />
@@ -324,8 +361,8 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                         {
                             <TouchableOpacity onPress = {() => handleDepthConv()} 
                                 style = {{flexDirection : 'row', paddingVertical: 15,}} >
-                                <Text style = {(mft == 'feet') ? styles.mftgray : styles.mftblack}> m</Text>
-                                <Text style = {(mft == 'meters') ? styles.mftgray : styles.mftblack}>/ft</Text>
+                                <Text style = {(mft === 'feet') ? styles.mftgray : styles.mftblack}> m</Text>
+                                <Text style = {(mft === 'meters') ? styles.mftgray : styles.mftblack}>/ft</Text>
                             </TouchableOpacity>
                         } 
                     />
@@ -407,8 +444,8 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                     {
                         <TouchableOpacity onPress = {() => handletempConv()} 
                         style = {{flexDirection : 'row', paddingVertical: 15,}} >
-                            <Text style = {(cf == 'fer') ? styles.cfgray : styles.cfblack}> ºC</Text>
-                            <Text style = {(cf == 'cel') ? styles.cfgray : styles.cfblack}>/ºF</Text>
+                            <Text style = {(cf === 'fer') ? styles.cfgray : styles.cfblack}> ºC</Text>
+                            <Text style = {(cf === 'cel') ? styles.cfgray : styles.cfblack}>/ºF</Text>
                         </TouchableOpacity>
                     } 
                 />

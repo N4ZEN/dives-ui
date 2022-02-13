@@ -133,17 +133,14 @@ const DiveEditing = ({navigation, route}) => {
             Duration,
             Location, 
             DiveType,
-            MaxDepth,
-            AvgDepth,
+            Temperature,
+            Depth,
             BottomTime,
-            AirTemperature,
-            SurfaceTemperature,
-            BottomTemperature,
-            Weights,
+            Weight,
             DiveRating,
             Description, 
             WeatherCondition,
-            Tankconsumption,
+            TankConsmption,
             ReefHealth,
             MarineLife,
             RareSpecies,  ...restofdata} = res
@@ -153,18 +150,15 @@ const DiveEditing = ({navigation, route}) => {
             Duration,
             Location}
         const adddetails = {DiveType,
-            MaxDepth,
-            AvgDepth,
+            Depth,
             BottomTime,
-            AirTemperature,
-            SurfaceTemperature,
-            BottomTemperature,
-            Weights,
+            Temperature,
+            Weight,
             DiveRating,
             Description}
         const weathercond = {
             WeatherCondition}
-        const tankcond = Tankconsumption
+        const tankcond = TankConsmption
         const reefhealth = ReefHealth
         const marine = {MarineLife,
             RareSpecies}

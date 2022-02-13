@@ -15,15 +15,7 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
     const tankcons = TankConsumptn;
 
     const [TCVisible, setTCVisible] = React.useState(false)
-    const [startpres, setStartPres] = React.useState('')
-    const [presConv, setPresConv] = React.useState('0')
-    const [endpres, setEndPres] = React.useState('')
-    const [presConv2, setPresConv2] = React.useState('0')
     const [barpsi, setbarpsi] = React.useState('bar')
-   // const startRef = React.useRef();
-  
-    const [TankNo, setTankNo] = React.useState(null)
-
     const [tanksArray, setTanksArray] = React.useState([{
         tankid: 1,
         startPressure: 0,
@@ -34,8 +26,6 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
     }])
     const [currentTanks, setCurrentTank] = React.useState('1')
     
-    const [enableButton, setEnableButton] = React.useState(false)
-
     const addnewtank = () => {
         let newaddedvalue = Number(currentTanks) +1
         setCurrentTank(newaddedvalue.toString())
@@ -48,19 +38,6 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
         })
     }
 
-    // const outputval = () => {
-    // tanksArray.map(function(item, i){
-    //     console.log('test');
-    //     return <li key={i}>Test</li>
-    //   })
-    // }
-    // let durationBody = duration.map((item, i) => {
-    //     return (
-    //       <option key={i} value={item}>
-    //         {item}
-    //       </option>
-    //     );
-    //   });
     const removetank = () => {
         if (currentTanks === '1') {
             const newarr = [{tankid: 1,
@@ -101,13 +78,6 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
        // tanksArray[index].startPressure = value
     }
 
-    const handleonchangestart = (value) => {
-        // console.log(value)
-            let nval = value
-          setStartPres(nval)
-        
-    }
-
     const handleChangestart = (index, value) => {
         // console.log(index)
         // console.log(value)
@@ -135,20 +105,6 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
         }   
     }
 
-
-
-    // function IncrementTankNo() {
-    //     setCurrentTank(currentTank +1 )
-    // }
-
-    // function DecrementTankNo() {
-    //     if(currentTank === 1) {
-    //         return;
-    //     }else {
-    //         setCurrentTank(currentTank - 1 )
-    //     }
-    // }
-
     const Tankcons = () => {
         return(
             <View>
@@ -166,21 +122,7 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
             </View>
         )
     }
-    // React.useEffect(() => {
-    //     //console.log(tanksArray)
-    // }, [tanksArray])
 
-    // React.useEffect(() => {
-    //     //console.log(tanksArray)
-    // }, [startpres])
-
-    const createNewTank= () => {
-        return (
-            <View>
-                <TankView />
-            </View>
-        )
-    }
     const TankView = () => {
         return(
             <View>
@@ -326,8 +268,9 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
     React.useEffect(() => {
         if(tankcons && Object.keys(tankcons).length !== 0){
             setTCVisible(true)
-           // console.log(tankcons)
-            setTanksArray(tankcons)
+            setbarpsi(tankcons.PressureUnit)
+            setTanksArray(tankcons.TankConsumption)
+            
         }
     }, [tankcons])
 
@@ -344,15 +287,16 @@ const Tankconsumption = ({parentCallback, TankConsumptn}) => {
             {
             parentCallback({Tankconsumption: null})
         } else{
-            parentCallback({Tankconsumption: tanksArray})
+            parentCallback({
+                TankConsmption: {
+                    TankConsumption: tanksArray,
+                    PressureUnit: barpsi,
+                },
+            })
         }
      }, [tanksArray, currentTanks])
 
 
-    // React.useEffect (() => {
-    //     let calpsiend =  Math.round(((Number(endpres)*14.5038)  + Number.EPSILON) * 1) / 1
-    //     setPresConv2(calpsiend)
-    // }, [endpres])
     return (
         <View>
             {/*Tank Consumption */}
