@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Platform, TextInput, Pressable, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Platform, useColorScheme, TextInput, Pressable, Text, Dimensions} from 'react-native';
 import {ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -45,7 +45,18 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
     const [drift, setDrift] = React.useState(false)
  {/* Rating */}
     const [rating, setRating] = React.useState(0)   
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
 
+
+    const MyComponent= ()=> {
+     if (colorScheme === 'dark') {
+       setcolorsch(false)
+     } else {
+       setcolorsch(true)
+     }
+     console.log(colorScheme)
+   }
 
 
     function handleWeightConv() {
@@ -153,6 +164,9 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
             setBottomTimeRemoveVisible(true)
         }
     }, [textTime])
+    React.useEffect(() => {
+        MyComponent();
+      }, [])
 
     React.useEffect(() => {
         if(editdivedata) {
@@ -517,7 +531,7 @@ const AdditionalData = ({parentCallback, AdditionalDetails}) => {
                     ratingTextColor={(rating === 0) ?COLORS.darkGray1 :COLORS.lightblue2}
                     startingValue={rating}
                     fractions={2}
-                    tintColor={COLORS.lightGray2}
+                    tintColor={colorsch ? COLORS.lightGray2: "#222224"}
                     style= {{backgroundColor: COLORS.lightGray2, borderColor:COLORS.primaryBlur, }}
                     jumpValue={0.5}
 

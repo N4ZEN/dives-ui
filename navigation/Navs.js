@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text, useColorScheme} from 'react-native';
 import {TouchableOpacity } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -83,6 +83,23 @@ const MainNav = () => {
     const [userToken, setUserToken] = React.useState(null);
     const [isFirstLauch, setFirstLaunch] = React.useState(true);
     const [hasCheckedAsyncStorage, setCheckedAsyncStorage] = React.useState(false);
+
+//     const [colorsch, setcolorsch] = React.useState(true)
+
+
+//     const MyComponent= ()=> {
+//      if (colorScheme === 'dark') {
+//        setcolorsch(false)
+//      } else {
+//        setcolorsch(true)
+//      }
+//      console.log(colorScheme)
+//    }
+
+
+
+
+
     // const [isSignedOut, setIsSignedOut] = React.useState(false);
     // const [viewdOnboarding, setViewedOnboarding] = React.useState(false)
 
@@ -176,6 +193,9 @@ const MainNav = () => {
             setlaunched();            
             bootstrapAsync();
         }, 1000);
+
+      //  MyComponent();
+
         // setIsLoading(false)
     }, [])
  
@@ -272,39 +292,40 @@ const TabNavigator = () => {
             headerShown: false,
             showLabel: true,
             
+            
         }}>
             <Tab.Screen name = "Home" component={Home} 
                 options={{
                     tabBarIcon: ({focused, color}) => (
-                <Entypo name="home" size={32} color={focused? COLORS.darkpink1: COLORS.gray2}  
-                style = {focused? {paddingTop: 2}: {paddingTop: 10,}}/>
+                <Entypo name="home" size={32} color={focused? COLORS.darkpink1: COLORS.darkGray3}  
+                style = {focused? {paddingTop: 2,}: {paddingTop: 10, }}/>
                 ),
                 tabBarLabel: ({ focused}) => {
-                    return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.pink, paddingBottom: 3,}: 
-                    {fontSize: 8, paddingBottom: 0}}>{focused ? "Home" : null}</Text>
+                    return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.pink, paddingBottom: 5,}: 
+                    {fontSize: 8, paddingBottom: 3}}>{focused ? "Home" : null}</Text>
                   }
             }}/>  
             <Tab.Screen name = "Dive Logs" component={Liked} 
                 options={{
                     
                 tabBarIcon: ({focused, color}) => (
-                 <MaterialIcon name="list-alt" size={32} color={focused? COLORS.darkpink1: COLORS.gray2} 
+                 <MaterialIcon name="list-alt" size={32} color={focused? COLORS.darkpink1: COLORS.darkGray3} 
                  style = {focused? {paddingTop: 2}: {paddingTop: 10,}}/>
                     ),
                     tabBarLabel: ({ focused}) => {
-                        return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.pink, paddingBottom: 3,}: 
-                        {fontSize: 8, paddingBottom: 0}}>{focused ? "Dive Logs" : null}</Text>
+                        return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.darkpink1, paddingBottom: 5,}: 
+                        {fontSize: 8, paddingBottom: 3}}>{focused ? "Dive Logs" : null}</Text>
                       }
             }}/> 
             <Tab.Screen name = "Photos" component={Photos}
                 options={{
                 tabBarIcon: ({focused, color}) => (
-                    <MaterialIcon name="collections" size={32} color={focused? COLORS.darkpink1: COLORS.gray2}  
+                    <MaterialIcon name="collections" size={32} color={focused? COLORS.darkpink1: COLORS.darkGray3}  
                     style = {focused? {paddingTop: 2}: {paddingTop: 10,}}/>
                 ),
                 tabBarLabel: ({ focused}) => {
-                    return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.pink, paddingBottom: 3,}: 
-                    {fontSize: 8, paddingBottom: 0}}>{focused ? "Photos" : null}</Text>
+                    return <Text style={focused? {fontSize: 10, fontWeight: '600', color: COLORS.darkpink1, paddingBottom: 5,}: 
+                    {fontSize: 8, paddingBottom: 3}}>{focused ? "Photos" : null}</Text>
                 }
             }}/>
         </Tab.Navigator>
@@ -312,6 +333,8 @@ const TabNavigator = () => {
 };
 
 const MainStack = () => {
+    const colorScheme = useColorScheme();
+
     return(
         <Stack.Navigator initialRouteName = 'TabNavigator' >
             <Stack.Screen name = "TabNavigator" component = {TabNavigator} options = {{headerShown: false}}/>
@@ -323,12 +346,12 @@ const MainStack = () => {
             <Stack.Screen name = "DivingData" component = {Divingdata} options = {{headerShown: false}}/>
             <Stack.Screen name = "Share" component = {Share} options = {{headerShown: false}}/>
             <Stack.Screen name = "Dive Log" component = {Divelogging} options = {{headerShown: true,
-            headerTitleStyle :{color: COLORS.black},
-            headerTintColor: COLORS.black,
+            //headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
+            //headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
             }}/>
             <Stack.Screen name = "Dive Edit" component = {DiveEditing} options = {{headerShown: true,
-            headerTitleStyle :{color: COLORS.black},
-            headerTintColor: COLORS.black,
+           // headerTitleStyle :{color: (colorScheme === 'light') ? COLORS.black: COLORS.white},
+            //headerTintColor: (colorScheme === 'light') ? COLORS.black: COLORS.white,
             }}/>
         </Stack.Navigator>
     )
@@ -423,8 +446,10 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         paddingTop: 5,
-        marginTop: -20
-        // backgroundColor: COLORS.lightblue4
+        marginTop: -20,
+        borderColor: COLORS.white,
+        backgroundColor: COLORS.white,
+        height: 55,
     },
     stack: {
         flex: 1,

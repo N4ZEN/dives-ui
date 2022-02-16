@@ -1,56 +1,109 @@
 const divelog = [
     {
-        CreatedOn: 22, 
-        Location: 'heylhi, seenu Hithadhoo', 
-        DiveDate: '7/7/2022',
+        CreatedOn: '22', 
+        Location:  {
+            "OBJECTID": 1,
+            "Name": "Alidhoo Caves",
+            "Atoll": "HAA ALIFU ATOLL",
+            "Latitude": 6.8487,
+            "longitude": 73.14923333
+          },
+          
+        Date: '7/7/2022',
         DiveStartTime: '33:22',
         EndTime: '5:33',
-        image: require('../../assets/images/species/organPipe.png'),
-        imagenicely: require('../../assets/images/species/lettuce.jpg'),
         rating: 3.5,
     }, 
     {
-        CreatedOn: 25, 
-        Location: 'lakeside', 
-        DiveDate: '8/7/2022',
+        CreatedOn: '25', 
+        Location: {
+            "OBJECTID": 2,
+            "Name": "Amba Canyon",
+            "Atoll": "HAA DHAALU ATOLL",
+            "Latitude": 6.737583333,
+            "longitude": 73.11321667
+          },
+         
+        Date: '8/7/2022',
         DiveStartTime: '33:22',
         EndTime: '5:33',
     },
     {
-        CreatedOn: 29, 
-        Location: 'madhiri', 
-        DiveDate: '9/7/2022',
-        DiveStartTime: '33:22',
-        EndTime: '8:33',
-        image1:  require('../../assets/images/species/organPipe.png'),
-        image2:  require('../../assets/images/species/suncoral.jpg'),
-        image3:  require('../../assets/images/species/organPipe.png'),
-        image4:  require('../../assets/images/species/organPipe.png'),
-        image5:  require('../../assets/images/species/organPipe.png'),
-        image6:  require('../../assets/images/species/organPipe.png'),
-    },
-    {
-        CreatedOn: 30, 
-        Location: 'flower', 
-        DiveDate: '8/7/2022',
-        DiveStartTime: '33:22',
-        EndTime: '8:33',
-        imageNAmes: require('../../assets/images/species/organPipe.png'),
-        imageNAmes1: require('../../assets/images/species/leafcoral.jpg'),
-        imageREc: require('../../assets/images/species/seafan.jpg'),
-        NoimageNAmes: require('../../assets/images/species/lettuce.jpg'),
-    },
-    {
-        CreatedOn: 31, 
-        Location: 'iller', 
-        DiveDate: '8/9/2022',
+        CreatedOn: '29', 
+        Location:  {
+            "OBJECTID": 3,
+            "Name": "Amba Canyon 2",
+            "Atoll": "HAA DHAALU ATOLL",
+            "Latitude": 6.73905,
+            "longitude": 73.1117
+          },
+        Date: '9/7/2022',
         DiveStartTime: '33:22',
         EndTime: '8:33',
     },
     {
-        CreatedOn: 18, 
-        Location: 'flower', 
-        DiveDate: '8/7/2022',
+        CreatedOn: '30', 
+        Location: {
+            "OBJECTID": 2,
+            "Name": "Amba Canyon",
+            "Atoll": "HAA DHAALU ATOLL",
+            "Latitude": 6.737583333,
+            "longitude": 73.11321667
+          }, 
+        Date: '8/7/2022',
+        DiveStartTime: '33:22',
+        EndTime: '8:33',
+    },
+    {
+        CreatedOn: '31', 
+        Location: {
+            "OBJECTID": 1,
+            "Name": "Alidhoo Caves",
+            "Atoll": "HAA ALIFU ATOLL",
+            "Latitude": 6.8487,
+            "longitude": 73.14923333
+          },
+          
+        Date: '8/9/2022',
+        DiveStartTime: '33:22',
+        EndTime: '8:33',
+    },
+    {
+        CreatedOn: '18', 
+        Location:{
+            "OBJECTID": 1,
+            "Name": "Alidhoo Caves",
+            "Atoll": "HAA ALIFU ATOLL",
+            "Latitude": 6.8487,
+            "longitude": 73.14923333
+          },
+        Date: '8/7/2022',
+        DiveStartTime: '33:22',
+        EndTime: '8:33',
+    },
+    {
+        CreatedOn: '60', 
+        Location:{
+            "OBJECTID": 1,
+            "Name": "Alidhoo Caves",
+            "Atoll": "HAA ALIFU ATOLL",
+            "Latitude": 6.8487,
+            "longitude": 73.14923333
+          },
+        Date: '8/7/2022',
+        DiveStartTime: '33:22',
+        EndTime: '8:33',
+    },
+    {
+        CreatedOn: '45', 
+        Location:{
+            "OBJECTID": 1,
+            "Name": "Alidhoo Caves",
+            "Atoll": "HAA ALIFU ATOLL",
+            "Latitude": 6.8487,
+            "longitude": 73.14923333
+          },
+        Date: '8/7/2022',
         DiveStartTime: '33:22',
         EndTime: '8:33',
     },

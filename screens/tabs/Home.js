@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'; 
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
@@ -27,6 +27,18 @@ const Home = ({navigation}) => {
     
     const [selectedDiscover, setSelectedDiscover] = React.useState('All')
     const [orderDiscover, setOrderDiscover] = React.useState(discoverData)
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+
+
+    const MyComponent= ()=> {
+     if (colorScheme === 'dark') {
+       setcolorsch(false)
+     } else {
+       setcolorsch(true)
+     }
+     console.log(colorScheme)
+   }
 
     const sortDiscover = (selected) => {
         if (selected == 'All') {
@@ -115,7 +127,9 @@ const Home = ({navigation}) => {
         )
     };
 
-
+    React.useEffect(() => {
+        MyComponent();
+    }, [])
 
     return (    
         <View style={styles.homeContainer}>
@@ -151,20 +165,20 @@ const Home = ({navigation}) => {
                     <Text style ={styles.discoverTitle}>Discover</Text>
                     <View style={styles.discoverCatagoriesWrapper}>
                         <TouchableOpacity onPress={() => sortDiscover('All')}>
-                            <Text style= {{...styles.discoverCatagoryText, 
-                                color:(selectedDiscover == 'All') ?  colour.orange : colour.gray }}>All</Text>
+                            <Text style= {{...styles.discoverCatagoryText, fontWeight: (selectedDiscover === 'All') ? 'bold' : 'normal',
+                                color:(selectedDiscover === 'All') ?  colour.orange : colorsch? COLORS.darkGray2: colour.gray }}>All</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('Popular')}>
-                            <Text style= {{...styles.discoverCatagoryText, 
-                                color:(selectedDiscover == 'Popular') ?  colour.orange : colour.gray }}>Popular</Text>
+                            <Text style= {{...styles.discoverCatagoryText, fontWeight: (selectedDiscover === 'Popular') ? 'bold' : 'normal',
+                                color:(selectedDiscover === 'Popular') ?  colour.orange : colorsch?  COLORS.darkGray2: colour.gray}}>Popular</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('HighRated')}>
-                            <Text style= {{...styles.discoverCatagoryText, 
-                                color:(selectedDiscover == 'HighRated') ?  colour.orange : colour.gray }}>High-Rated</Text>
+                            <Text style= {{...styles.discoverCatagoryText, fontWeight: (selectedDiscover === 'HighRated') ? 'bold' : 'normal',
+                                color:(selectedDiscover === 'HighRated') ?  colour.orange : colorsch?  COLORS.darkGray2: colour.gray}}>High-Rated</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => sortDiscover('Depth')}>
-                            <Text style= {{...styles.discoverCatagoryText, 
-                                color:(selectedDiscover == 'Depth') ?  colour.orange : colour.gray }}>Depth</Text>
+                            <Text style= {{...styles.discoverCatagoryText, fontWeight: (selectedDiscover === 'Depth') ? 'bold' : 'normal',
+                                color:(selectedDiscover === 'Depth') ?  colour.orange : colorsch?  COLORS.darkGray2: colour.gray}}>Depth</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.discoverItemsWrapper}>
@@ -215,7 +229,7 @@ const styles = StyleSheet.create({
     homeContainer: {
         flex:1,
         color: colour.white,
-        marginBottom: 20,
+        marginBottom: -20,
     },
     menuWrapper: {
         marginRight: 20,
@@ -336,6 +350,7 @@ const styles = StyleSheet.create({
     },
     learnMoreWrapper: {
         marginTop:10,
+        marginBottom: 45,
     },
     learnMoreTitle: {
         marginHorizontal:20,

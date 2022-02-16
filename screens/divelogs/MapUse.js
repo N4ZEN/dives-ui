@@ -217,7 +217,7 @@ const MapViews = ({navigation, route}) => {
                         ratingCount={5}                        
                         startingValue={rating}
                         fractions={2}
-                        tintColor={colorsch ? COLORS.white : COLORS.black}
+                        tintColor={colorsch ? COLORS.white : "#1C1D1F"}
                         imageSize={45}
                         jumpValue={0.5} 
                         //ratingColor={COLORS.lightblue3}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, Pressable, ImageBackground, Image, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, useColorScheme, Pressable, ImageBackground, Image, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,15 +12,34 @@ import { COLORS, colour } from '../../assets/colors/theme';
 
 const About = ({navigation}) => {
 
+    const [colorsch, setcolorsch] = React.useState(true)
+    const colorScheme = useColorScheme();
+
+
+    const MyComponent= ()=> {
+     if (colorScheme === 'dark') {
+       setcolorsch(false)
+     } else {
+       setcolorsch(true)
+     }
+     console.log(colorScheme)
+   }
+
     const  handleOpenWithWebBrowser = () => {
         WebBrowser.openBrowserAsync('https://sigsmaldives.org/what-we-do');
-      };
+    };
+
+    React.useEffect(() => {
+        MyComponent();
+    }, [])
 
     return (
         <View style={{flex: 1, 
         // backgroundColor:"#dbe02",
-        backgroundColor: "#C2F7FD"
+        backgroundColor: "#BFEEFF"
         }}>
+            <ImageBackground style = {{flex: 1,}} source = {require('../../assets/images/about.png')}>
+
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Pressable 
             style= {({pressed}) => [
@@ -35,17 +54,17 @@ const About = ({navigation}) => {
                 {/* <MaterialIcons name = "keyboard-backspace" size={35} color={COLORS.black}/> */}
 
             </Pressable>
-                <Image source= {require('../../assets/images/about2.png')}
+                <View 
             style= {{width: 250,
                 height:220,
                 marginTop: -20,
-                resizeMode: 'contain', borderRadius: 2,
+                 borderRadius: 2,
             }} />
                 </View>
                
             <View style = {{marginTop: -40}}>
                 <Text style={{...styles.subHeader, color: COLORS.darkGray3}}>Dives MV</Text>
-                <Text style={styles.Header}>Small Islands Geographic Society (SIGS)</Text>
+                <Text style={{...styles.Header, color: colorsch? COLORS.black : COLORS.black}}>Small Islands Geographic Society (SIGS)</Text>
                 <Text style={{...styles.maintext, textAlign: 'justify'}}>We are a NGO registered in the Maldives to create an 
                 interest among young people and building new generations who are interested 
                 on the unique environment, geography, and the livelihood of small islands. 
@@ -64,6 +83,7 @@ const About = ({navigation}) => {
                     
                 </TouchableOpacity>
             </View>
+            </ImageBackground>
         </View>
     );
 }
@@ -82,7 +102,7 @@ const styles = StyleSheet.create({
         fontFamily: 'LatoBold',
         fontSize:28,
         textAlign: 'center',
-        color: COLORS.black,
+        //color: COLORS.black,
     },
     subHeader: {
         fontFamily: 'LatoBold',
@@ -104,7 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: COLORS.lightGray1,
+        backgroundColor: COLORS.lightGray,
         borderRadius: 6,
         marginTop: 20,
         marginHorizontal: 80,

@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { Overlay } from 'react-native-elements';
+import {Entypo} from 'react-native-vector-icons';
 
 import { COLORS,  colour } from '../../assets/colors/theme';
 import CompassImage from '../../assets/images/compass2.png'
@@ -101,8 +102,15 @@ const Weather = ({parentCallback, WeatherConditions}) => {
                     overlayStyle = {{borderRadius: 10}}
                     //backdropStyle = {{color: "rgbs(0,0,0, 0.8)"}}
                    >
-                    <View>
-                    <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Sea State</Text>
+                    <View> 
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <View style={{paddingHorizontal:20,}}></View>
+                            <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders,}}>Sea State</Text>
+                            <TouchableOpacit onPress={() => {setSeaStateVisible(false)
+                                setSeaState('')}} style={{paddingBottom: 10, paddingLeft: 10,}}>
+                                <Entypo name='cross' size = {23} color={COLORS.black}/>
+                            </TouchableOpacit>
+                        </View>
                     <View>
                         <Text style = {{fontWeight: 'bold' , ...styles.labelStyles, textAlign: 'center', fontSize: 17}}>{seaState}</Text>
                         {/* <Text style = {styles.slidertext}> m </Text> */}
@@ -160,7 +168,14 @@ const Weather = ({parentCallback, WeatherConditions}) => {
                         overlayStyle = {{borderRadius: 10}}
                     >
                         <View>
-                        <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Current Direction</Text>
+                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View style={{paddingHorizontal:20,}}></View>
+                                <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Current Direction</Text>
+                                <TouchableOpacit onPress={() => {setCurrDirVisible(false)
+                                    setDirSelected('')}} style={{paddingBottom: 5, paddingLeft: 10,}}>
+                                    <Entypo name='cross' size = {25} color={COLORS.black}/>
+                                </TouchableOpacit>
+                            </View>
                         
                         <View style = {{ alignItems: 'center', justifyContent: 'center'}}>
             
@@ -296,7 +311,14 @@ const Weather = ({parentCallback, WeatherConditions}) => {
                     overlayStyle = {{borderRadius: 10, paddingHorizontal: 10}}
                    >
                     <View>
-                    <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Weather</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View style={{paddingHorizontal:20,}}></View>
+                                <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Weather</Text>
+                                <TouchableOpacit onPress={() => {setWeatherVisible(false)
+                                    setWeather('')}} style={{paddingBottom: 5, paddingLeft: 10,}}>
+                                    <Entypo name='cross' size = {25} color={COLORS.black}/>
+                                </TouchableOpacit>
+                            </View>
                 
 
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 15}}>
@@ -460,7 +482,14 @@ const Weather = ({parentCallback, WeatherConditions}) => {
                     //backdropStyle = {{color: "rgbs(0,0,0, 0.8)"}}
                    >
                     <View>
-                    <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Visibility</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View style={{paddingHorizontal:20,}}></View>
+                                <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Visibility</Text>
+                                <TouchableOpacit onPress={() => {setVisibilityVisible(false)
+                                setVisibility('')}} style={{paddingBottom: 5, paddingLeft: 10,}}>
+                                    <Entypo name='cross' size = {25} color={COLORS.black}/>
+                                </TouchableOpacit>
+                            </View>
                     <View style = {{flexDirection: 'row', alignSelf: 'center'}}>
                         <Text style = {{fontWeight: 'bold' , ...styles.labelStyles, textTransform: 'lowercase'}}>{visibiltiy}</Text>
                     </View>
@@ -515,7 +544,14 @@ const Weather = ({parentCallback, WeatherConditions}) => {
                     //backdropStyle = {{color: "rgbs(0,0,0, 0.8)"}}
                    >
                     <View>
-                    <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Current Speed</Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <View style={{paddingHorizontal:20,}}></View>
+                            <Text style = {{ textAlign: 'center', ...styles.diveLogHeaders}}>Current Speed</Text>
+                            <TouchableOpacit onPress={() => {setCurrSpeedVisible(false)
+                    setCurrentSpeed('')}} style={{paddingBottom: 10, paddingLeft: 10,}}>
+                                <Entypo name='cross' size = {23} color={COLORS.black}/>
+                            </TouchableOpacit>
+                        </View>
                     <View style = {{flexDirection: 'row', alignSelf: 'center'}}>
                         <Text style = {{fontWeight: 'bold' , ...styles.labelStyles, fontSize: 17}}>{currentSpeed}</Text>
                         {/* <Text style = {styles.slidertext}> m </Text> */}

@@ -26,7 +26,7 @@ const onboardingData = [
     {
         id: 3,
         title: 'Share with your friends',
-        text: 'Add your friends to keep in touch with your dive buddies',
+        text: 'Share your dives with your friends and dive buddies',
         bannerImage: require('../../assets/images/Onboard3.png'),
         backgroundImage: require("../../assets/images/background01.png"),
     },
@@ -200,7 +200,7 @@ const OnBoarding2 = ({navigation}) => {
                         style= {{
                             fontFamily: 'PoppinsBold',
                             fontSize: 40,
-                            //color: COLORS.gray,
+                            color: COLORS.gray,
                             color: colour.blue,
                             padding: 11,
                             paddingTop: 25

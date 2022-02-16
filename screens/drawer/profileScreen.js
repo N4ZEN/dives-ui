@@ -27,7 +27,7 @@ const Profilescreen = ({navigation}) => {
                         {backgroundColor: pressed? COLORS.lightGray1 : null},
                         {borderRadius: pressed? 20 : null}
                     ]} 
-                        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+                        onPress={() => navigation.navigate('Dashboard', {screen: 'TabNavigator', params: { screen: 'Home'}})}
                     >
                         <Entypo name='chevron-left' size={32} color={colour.white} />
                     </Pressable>

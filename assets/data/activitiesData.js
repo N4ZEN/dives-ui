@@ -5,7 +5,7 @@ const activitiesData = [
         id: 'activities-1',
         title: 'DOLPHIN',
         image: require('../icons/dolphin.png'),
-        color: COLORS.pink,
+        color: "#2974B9",
     },
     {
         id: 'activites-2',
@@ -35,7 +35,7 @@ const activitiesData = [
         id: 'activites-6',
         title: 'SHARK',
         image: require('../icons/shark.png'),
-        color: COLORS.lightblue1
+        color: "#BA6F82",
     },
 ]
 

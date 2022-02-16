@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, useColorScheme, Image, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, useColorScheme, Image, ImageBackground, Pressable} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Entypo, Feather} from 'react-native-vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -55,6 +55,7 @@ const Share = ({route, navigation}) => {
 
     return (
         <View style={{flex:1,}}>
+           
         <ViewShot
             ref = {viewShot}
             options={{ format: "jpg", quality: 0.9 }}
@@ -66,19 +67,19 @@ const Share = ({route, navigation}) => {
                     <Text style={{color: COLORS.black}}>My Dive Log</Text>
 
                 </View >
-                <View style={{height: 120}}></View>
-                    {/* <Image source={mapshare} style={{height: 120, width: Dimensions.get("window").width, resizeMode: 'contain' }}/> */}
+                {/* <View style={{height: 120}}></View> */}
+                    <Image source={mapshare} style={{height: 120, width: Dimensions.get("window").width, resizeMode: 'contain' }}/>
                  <View style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', top: 100,}}>
                     <Text style={{fontFamily: 'LatoBold', fontSize: 19, color: COLORS.black, textAlign: 'center', textTransform: 'capitalize'}}>{item.Location.Name}</Text>
                     <Rating 
                         type='custom'
                         readonly={true}
-                        ratingBackgroundColor={COLORS.darkGray1}
+                        ratingBackgroundColor={COLORS.darkGray2}
                         ratingCount={5}                        
                         startingValue={item.Location.LocationRating}
                         fractions={2}
-                        tintColor={'#A0C4E7'}
-                        imageSize={25}
+                        tintColor={'#99C1E4'}
+                        imageSize={30}
                         jumpValue={0.5}                        
                         starContainerStyle={{shadowColor: "#000",
                         shadowOffset: {
@@ -92,18 +93,18 @@ const Share = ({route, navigation}) => {
                     />
                 </View>
                 <View style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', top: 145}}>
-                    <Entypo name='location-pin' size = {60} color={COLORS.red} />
+                    <Entypo name='location-pin' size = {53} color={COLORS.red} />
                     <Text style={{fontFamily: 'LatoBold', fontSize: 11, color: COLORS.black, textAlign: 'center',marginTop: -8}}>Maldives</Text>
                 </View>
                 <View style={{marginLeft: 30, marginRight: 30, marginTop: 110,}}>                
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingVertical: 2}}>
-                    <Entypo name='location-pin' size = {20} color={COLORS.white} />
-                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.lightGray2, width: 180, textTransform: 'capitalize', }} ellipsizeMode='tail' numberOfLines={1}>{item.Location.Atoll}</Text>
+                    <Entypo name='location-pin' size = {20} color={COLORS.black} />
+                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.black, width: 200, textTransform: 'capitalize', }} ellipsizeMode='tail' numberOfLines={1}>{item.Location.Atoll}</Text>
                         <Text style={{fontFamily: 'LatoRegular', fontSize: 17, color: COLORS.black}}> | </Text>
-                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray2}}>{item.Date}</Text>
-                        <View>
+                        <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.black}}>{item.Date}</Text>
+                        {/* <View>
                             <Image source={flag} style={{width: 30, height: 17, resizeMode: 'contain'}}/>
-                        </View>
+                        </View> */}
                     </View> 
                 </View>
                 <View style ={styles.descritptionWrapper}>
@@ -113,13 +114,13 @@ const Share = ({route, navigation}) => {
                         </View>
                     </View>
                     <View style = {{paddingLeft: 90, paddingTop: 25,}}>
-                        <Text style={{fontFamily: 'LatoBold', fontSize: 18, color: COLORS.darkGray}}>John Smith</Text>
+                        <Text style={{fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black}}>John Smith</Text>
                     </View>
                     <View style= {{flexDirection: 'row', justifyContent: 'space-between', marginTop: 40, paddingHorizontal: 20, paddingVertical: 10, paddingBottom: 30}}>
                         <View >
                             <Text style={{fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black, textAlign: 'center'}}>{item.StartTime}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray, textAlign: 'center'}}>Start Time</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkpink, textAlign: 'center'}}>Start Time</Text>
                             </View>
                         </View>
                         <View style={{borderRightWidth: 0.5, borderRightColor: COLORS.darkGray2, height: 55}}>
@@ -127,7 +128,7 @@ const Share = ({route, navigation}) => {
                         <View>
                             <Text style={{fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black, textAlign: 'center'}}>{item.EndTime}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray, textAlign: 'center'}}>End Time</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkpink, textAlign: 'center'}}>End Time</Text>
                             </View>
                         </View>
                         <View style={{borderRightWidth: 0.5, borderRightColor: COLORS.darkGray2, height: 55}}>
@@ -135,32 +136,32 @@ const Share = ({route, navigation}) => {
                         <View>
                             <Text style={{fontFamily: 'LatoBold', fontSize: 17, color: COLORS.black, textAlign: 'center'}}>{item.Duration}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkGray, textAlign: 'center'}}>Duration</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 15, color: COLORS.darkpink, textAlign: 'center'}}>Duration</Text>
                             </View>
                         </View>
                     </View>
                     
                     <View style= {{flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 0, paddingHorizontal: 20, paddingVertical: 30, 
                     borderTopWidth: 0.3, borderColor: COLORS.darkGray2,  }}>
-                        {(item.MaxDepth !== null) &&
+                        {(item.Depth.MaxDepth !== null) &&
                         <View >
-                            <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center'}}>{item.MaxDepth}</Text>
+                            <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center'}}>{item.Depth.MaxDepth}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkGray, textAlign: 'center', }}>Max {"\n"}Depth</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkpink, textAlign: 'center', }}>Max {"\n"}Depth</Text>
                             </View>
                         </View>}
                         {(item.WeatherCondition.Visibility !== null) &&
                         <View>
                             <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center'}}>{item.WeatherCondition.Visibility}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkGray, textAlign: 'center'}}>Visibility</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkpink, textAlign: 'center'}}>Visibility</Text>
                             </View>
                         </View>}
-                        {(item.SurfaceTemperature !== null) &&
+                        {(item.Temperature.SurfaceTemperature !== null) &&
                         <View style={{}}>
-                            <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center'}}>{item.SurfaceTemperature}</Text>
+                            <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center'}}>{item.Temperature.SurfaceTemperature}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkGray, textAlign: 'center', }} numberOfLines={2}>Surface {"\n"}Temperature</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkpink, textAlign: 'center', }} numberOfLines={2}>Surface {"\n"}Temperature</Text>
                             </View>
                         </View>}
                        
@@ -169,13 +170,24 @@ const Share = ({route, navigation}) => {
                         <View>
                             <Text style={{fontFamily: 'LatoBold', fontSize: 15, color: COLORS.black, textAlign: 'center', textTransform: 'capitalize'}}>{item.WeatherCondition.Weather}</Text>
                             <View style={{paddingTop: 10,}}>
-                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkGray, textAlign: 'center'}}>Weather</Text>
+                                <Text style={{fontFamily: 'LatoRegular', fontSize: 14, color: COLORS.darkpink, textAlign: 'center'}}>Weather</Text>
                             </View>
                         </View>}
                     </View>
                     </View>
                 </ImageBackground>
+                
             </ViewShot>
+            <Pressable 
+      style= {({pressed}) => [
+        {...styles.backIcon, borderRadius:20, padding: 3},
+        {backgroundColor: pressed? COLORS.lightGray1 : null},
+        
+      ]} 
+        onPress={() => navigation.goBack()}      
+      >
+        <Entypo name='cross' size={32} color={COLORS.black} />
+      </Pressable>
             <View style = {{position: 'absolute',
                 bottom: 15,
                 right:1}}>
@@ -212,21 +224,32 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         width: Dimensions.get("window").width-30,
         
-        // backgroundColor: '#90C0DB', 
+      //   backgroundColor: '#69D1E5', 
       // backgroundColor: COLORS.lightGray,
-       backgroundColor: 'rgba(173, 235, 246, 0.3)',
-       // opacity: 0.3,
-        borderColor: COLORS.darkGray2,
+      backgroundColor: 'rgba(105, 209, 229, 0.5)',
+      //  opacity: 0.4,
+   //     borderColor: COLORS.darkGray3,
+//         shadowColor: "#000",
+// shadowOffset: {
+// 	width: 0,
+// 	height: 4,
+// },
+// shadowOpacity: 0.32,
+// shadowRadius: 5.46,
+
+// elevation: 9,
         
-        borderWidth: 1.5,
-        borderRadius:25,
+      //  borderWidth: 1.5,
+        borderRadius:20,
         marginHorizontal: 10, 
         zIndex: 1
         //elevation: 2,   
     },
     backIcon: {
-        marginTop:55,
-        marginLeft: 15,
+        position: 'absolute',
+        top:35,
+        right: 15,
+        elevation: 2,
     },
     titlesWrapper: {
         marginHorizontal:20,

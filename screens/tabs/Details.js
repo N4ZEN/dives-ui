@@ -175,6 +175,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 15,
         borderRadius: 10,
+        shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 4,
+},
+shadowOpacity: 0.32,
+shadowRadius: 5.46,
+
+elevation: 6,
     },
     buttonTExt: {
         fontFamily: 'LatoBold',

@@ -37,11 +37,11 @@ const AuthLayout = ({title, subtitle, titleContainerStyle, children}) => {
                         style= {{
                             fontFamily: 'PoppinsBold',
                             fontSize: 40,
-                            color: colour.blue,
+                            color: COLORS.lightGray,
                             padding: 9,
                             marginTop: 15
                         }} >
-                        IVER
+                        IVES
                     </Text>
                 </View>
 

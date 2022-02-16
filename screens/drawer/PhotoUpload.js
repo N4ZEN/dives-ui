@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, Text, Pressable, Image} from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import {View, StyleSheet, Text, Pressable, Image, Dimensions, RefreshControl,} from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -8,6 +8,7 @@ import { DrawerActions } from '@react-navigation/native';
 import {Picker} from '@react-native-picker/picker';
 import * as SecureStore from 'expo-secure-store';
 import { useFocusEffect } from '@react-navigation/native';
+import GridImageView from 'react-native-grid-image-viewer';
 
 
 import divelog from '../../assets/data/divelog'
@@ -20,14 +21,12 @@ const Photos = ({navigation}) => {
     const [noOfPhotos, setNoOfPhotos] = React.useState('0');
     const [selectedLanguage, setSelectedLanguage] = React.useState('');
     const [selectedView, setSelectedView] = React.useState('grid');
-    const [firstopen, setfirstopen] = React.useState(true)
-    const [photoordered, setphotosordered] = React.useState(divelog)
-    const [imagedata, setimagedata] = React.useState()
     const [divelogs, setdivelogs] = React.useState(null)
     const [orderdivelogs, setOrderDivelogs] = React.useState([])
+    const [refreshing, setRefreshing] = React.useState(true)
 
+    const gallery = ["https://assets.weforum.org/article/image/responsive_big_webp_xLcwCseHFMM51BOggbh2-Q-EFQPLm0pLRdHXvMYh60o.webp" , "https://www.zubludiving.com/imager/images/Articles/Best-coral-reef-diving/25115/Best-Coral-Reef-Diving-Asia-Banner_d41d8cd98f00b204e9800998ecf8427e.webp"      ];
 
-    
     
     const retrievefunction = async(key) => {
         try{
@@ -35,8 +34,8 @@ const Photos = ({navigation}) => {
             if (result) {
                 // setdivelogexists(true)
                 const res = JSON.parse(result)
-                setOrderDivelogs([res])
-                setdivelogs([res])
+                setOrderDivelogs(divelog)
+                setdivelogs(divelog)
               //  console.log([res])
 
             } else {
@@ -51,7 +50,7 @@ const Photos = ({navigation}) => {
 
     const sortdivelogs = (selected) => {
         if (selected === 'Location') {
-            let sortedlocation = divelogs.sort((a, b) => a.Location.Name.localeCompare(b.Location.Name)).reverse()
+            let sortedlocation = divelogs.sort((a, b) => a.Location.Name.localeCompare(b.Location.Name))
             setOrderDivelogs(sortedlocation)
         } else if (selected === 'Dive Date') {
             let sortedDate = divelogs.sort((a, b) => a.Date.localeCompare(b.Date))
@@ -61,13 +60,11 @@ const Photos = ({navigation}) => {
             setOrderDivelogs(sortedDive)
         }  
         else {
-            console.log('hello')
+            console.log('dive sort')
         }
         setSelectedLanguage(selected)    
     }
-
-
-
+    
     const pickerenabled = () => {
         if (orderdivelogs) {
             return true;
@@ -76,16 +73,38 @@ const Photos = ({navigation}) => {
             return false;
         }
     }
+
+
    
 
-    const renderphotos = ({item}) => {
+    const renderphotos = ({item}) => {        
         return(
-            <View>
-                <Text> {item.CreatedOn}</Text>
-               
+            <View style={{flex:1, }}>
+                <View>                        
+                        <View style={{padding: 5, borderBottomColor: COLORS.darkGray, borderBottomWidth: 0.4}}>
+                        {(selectedLanguage === 'Dive Date') &&
+                            <Text style = {{fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14}}>{item.Date}</Text>
+                        } 
+                        {(selectedLanguage === 'Divelog Date') &&
+                            <Text style = {{fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14}}>{item.CreatedOn}</Text>
+                        } 
+                        {(selectedLanguage === 'Location') &&
+                            <Text style = {{fontFamily: 'LatoBold', color: COLORS.black, fontSize: 14}}>{item.Location.Name}</Text>
+                        } 
+                        </View>
+                </View>
+                <View>
+                    <GridImageView data={gallery} heightOfGridImage={Dimensions.get('window').width/4} transparent={0.8} />
+                </View>
             </View>
         )
     }
+
+    const loadData = () => {
+        retrievefunction(DIVE_LOG)
+        setRefreshing(false)
+    }
+
 
     useFocusEffect(
         React.useCallback(() => {
@@ -98,8 +117,17 @@ const Photos = ({navigation}) => {
           };
         }, [])
     )
+
     useEffect(() => {
-        retrievefunction(DIVE_LOG)
+
+    }, [noOfPhotos])
+    useEffect(() => {
+
+    }, [selectedLanguage])
+    useEffect(() => {
+        loadData();
+        // filterIt(divelogs, 'image')
+        
     }, [])
 
     return (
@@ -141,12 +169,12 @@ const Photos = ({navigation}) => {
                     </Picker>
                 </View>
                 <View  style= {{flexDirection: 'row', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => setSelectedView('list')}>
+                    {/* <TouchableOpacity onPress={() => setSelectedView('list')}>
                         <MaterialIcons name = "view-list" size={34} 
                         color={selectedView === 'list'? COLORS.lightblue1: COLORS.darkGray1} style= {{alignSelf: 'center'}}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity 
-                    // disabled={true}
+                     disabled={true}
                     onPress={() => setSelectedView('grid')}>
                         <MaterialIcons name = "apps" size={30}
                          color={selectedView === 'grid'? COLORS.lightblue1: COLORS.darkGray1}style= {{alignSelf: 'center'}} />
@@ -165,16 +193,25 @@ const Photos = ({navigation}) => {
 
                 {(divelogs !== null) && 
                 <View>
-                    <View>
+                    <ScrollView>
+                   
+                            <Text style = {{fontFamily: 'LatoBold', color: COLORS.black, fontSize: 16, paddingTop: 5, paddingHorizontal:5, paddingBottom: 3}}>Sorted by: {selectedLanguage}</Text>
+                            <Text style = {{fontFamily: 'LatoRegular', color: COLORS.black, fontSize: 14, paddingHorizontal: 5,}}>(tap image to view in fullscreen mode)</Text>
+
+                        
                         <FlatList  
                             data={orderdivelogs}
                             renderItem={renderphotos}
-                            keyExtractor={(item, index) => item.CreatedOn.toString()}
+                            keyExtractor={(item, index) => item.CreatedOn}
                             showsVerticalScrollIndicator={false}
                             initialNumToRender={7}
-                            contentContainerStyle={{paddingTop: 10, paddingHorizontal: 5, paddingBottom: 100, marginBottom: 30}}
+                            bounces={false}
+                            refreshControl={
+                                <RefreshControl refreshing={refreshing} onRefresh={loadData} />
+                              }
+                            contentContainerStyle={{paddingTop: 10, paddingHorizontal: 2, paddingBottom: 100, marginBottom: 220}}
                         />
-                    </View>
+                    </ScrollView>
                 </View>
                 }
             </View>

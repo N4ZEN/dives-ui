@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Alert, RefreshControl, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Alert, RefreshControl, FlatList, SafeAreaView} from 'react-native';
 import {  ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 import * as SecureStore from 'expo-secure-store';
@@ -13,15 +13,11 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import ProfileImage from '../../components/tabs/profileImage'
 import {COLORS, colour} from '../../assets/colors/theme';
-import Log1 from '../../assets/icons/logicons/log1.png'
-import Log2 from '../../assets/icons/logicons/log2.png'
-import Log3 from '../../assets/icons/logicons/log3.png'
-import Log4 from '../../assets/icons/logicons/log4.png'
-import Log5 from '../../assets/icons/logicons/log5.png'
-import Log6 from '../../assets/icons/logicons/log6.png'
-import Log7 from '../../assets/icons/logicons/log7.png'
-import Log8 from '../../assets/icons/logicons/log8.png'
 import Log9 from '../../assets/icons/logicons/log9.png'
+import profile from '../../assets/images/profile.png' ;
+import menu from '../../assets/icons/menu.png';
+import { DrawerActions } from '@react-navigation/native';
+
 
 Feather.loadFont();
 
@@ -40,21 +36,7 @@ const Liked = ({navigation}) => {
     const [isFirstdive, setFirstdive] = React.useState(false);
 
 
-    const pickicon= () => {
-        var icons = [
-            Log1,
-            Log2,
-            Log3,
-            Log4,
-            Log5,
-            Log6,
-            Log7,
-            Log8,
-            Log9,
-            ]
-        const myicons = icons[Math.floor(Math.random() * icons.length)]
-        return myicons
-    }
+    
 
     const checkfirstdive = async(key) => {
         try{
@@ -74,7 +56,7 @@ const Liked = ({navigation}) => {
 
     const sortdivelogs = (selected) => {
         if (selected === 'Location') {
-            let sortedlocation = divelogs.sort((a, b) => a.Location.Name.localeCompare(b.Location.Name)).reverse()
+            let sortedlocation = divelogs.sort((a, b) => a.Location.Name.localeCompare(b.Location.Name))
             setOrderDivelogs(sortedlocation)
         } else if (selected === 'Dive Date') {
             let sortedDate = divelogs.sort((a, b) => a.Date.localeCompare(b.Date))
@@ -104,25 +86,25 @@ const Liked = ({navigation}) => {
             <View>
                 <Pressable
                     disabled= {(diveselected===item.CreatedOn)}
-                    style = {{...styles.divelogItem, borderRadius: 20, backgroundColor: (diveselected===item.CreatedOn) ? COLORS.gray :"#F7FCFF",}}
+                    style = {{...styles.divelogItem, borderRadius: 25, paddingLeft: 13, backgroundColor: (diveselected===item.CreatedOn) ? COLORS.lightOrange2 :"#F7FCFF",}}
                     onPress={() => setdiveselected(item.CreatedOn)}
                 >
                     <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style ={{flexDirection: 'row'}}>
-                            <View style = {{backgroundColor: COLORS.lightGray1, height: 60, width: 60, borderRadius: 20,
+                            {/* <View style = {{backgroundColor: COLORS.lightGray1, height: 60, width: 60, borderRadius: 20,
                                 alignItems: 'center', justifyContent: 'center', margin: 7, marginRight: 10,}}>
                                 <Image source = {Log2} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
-                            </View>
+                            </View> */}
                             <View style = {{margin: 3}}>
                                 <View style={{flexDirection: 'row', }}>
-                                    <Text style={{...styles.locationtext, width: (diveselected===item.CreatedOn)? 110: 200,}}
+                                    <Text style={{...styles.locationtext, width: (diveselected===item.CreatedOn)? 210: 300,}}
                                     >{item.Location?.Name} </Text>
                                     </View>
                                     <Text style={{fontSize: 14,
                                         fontFamily: "PoppinsRegular",
                                         color: COLORS.black,
                                         textTransform: 'capitalize', 
-                                        width: (diveselected===item.CreatedOn)? 110:200
+                                        width: (diveselected===item.CreatedOn)? 210:200
                                     }}
                                         >{item.Location?.Atoll} </Text>
                                 <View style= {{flexDirection: 'row',}}>
@@ -134,12 +116,31 @@ const Liked = ({navigation}) => {
 
                         {(diveselected===item.CreatedOn) &&
                         <View style = {{flexDirection: 'row'}}>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, backgroundColor: COLORS.gray3, margin: 2.5,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                             shadowColor: "#000",
+                             shadowOffset: {
+                                 width: 0,
+                                 height: 2,
+                             },
+                             shadowOpacity: 0.25,
+                             shadowRadius: 3.84,
+                             
+                             elevation: 5,
+                             backgroundColor: COLORS.lightGray1, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() => navigation.navigate('Dive Edit', {divelogs: item})}>
-                                <MaterialIcons name = 'edit' size = {23} color= {COLORS.darkGray2} />
+                                <MaterialIcons name = 'edit' size = {23} color= {COLORS.darkGray} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, backgroundColor: COLORS.gray3, margin: 2.5,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 2,
+                            },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                            backgroundColor: COLORS.lightGray1, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() =>  Alert.alert('Delete Dive Log', 'Are you sure you want to delete divelog?',
                                     [
@@ -155,13 +156,23 @@ const Liked = ({navigation}) => {
                                     ]
                                   )}
                                 >
-                                <MaterialIcons name = 'delete' size = {23} color= {COLORS.darkGray2} />
+                                <MaterialIcons name = 'delete' size = {23} color= {COLORS.darkGray} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, backgroundColor: COLORS.gray3, margin: 2.5,
+                            <TouchableOpacity style={{height: 35, width: 35, borderRadius: 10, borderWidth: 0.5, borderColor: COLORS.darkGray,
+                             shadowColor: "#000",
+                             shadowOffset: {
+                                 width: 0,
+                                 height: 2,
+                             },
+                             shadowOpacity: 0.25,
+                             shadowRadius: 3.84,
+                             
+                             elevation: 5,
+                            backgroundColor: COLORS.lightGray1, margin: 2.5,
                                 alignItems: 'center', justifyContent: 'center'}}
                                 onPress={() => {navigation.navigate('Share', {item: item})}}
                                 >
-                                <MaterialIcons name = 'share' size = {23} color= {COLORS.darkGray2} />
+                                <MaterialIcons name = 'share' size = {23} color= {COLORS.darkGray} />
                             </TouchableOpacity>
                         </View>
                         }
@@ -171,7 +182,7 @@ const Liked = ({navigation}) => {
                 {(diveselected===item.CreatedOn)  &&
                 <View style ={{marginLeft: 25, marginTop: -5,}}>
                     
-                    <Text style = {{ fontSize: 13, color: COLORS.darkGray2, fontFamily: "LatoRegular"}}>Created On: { new Date(item.CreatedOn).toUTCString()}</Text>
+                    <Text style = {{ fontSize: 13, color: COLORS.darkGray2, fontFamily: "LatoRegular"}}>Last Modified: { new Date(item.CreatedOn).toUTCString()}</Text>
                 </View>}
             </View>
         )
@@ -247,20 +258,49 @@ const Liked = ({navigation}) => {
     }, [])
     
     return (
-        <LinearGradient style={{ flex: 1, }} colors={[COLORS.white, COLORS.lightblue4]}>
+        <LinearGradient style={{ flex: 1, }} colors={[COLORS.white, COLORS.lightOrange2]}>
             <TouchableWithoutFeedback 
                 onPress={()=> setdiveselected(null)}
             >
                 <View  style={{...styles.containerLogs,}}>
 
+                    
+
                     {/*Header */} 
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', 
-                        marginBottom:30 }}>
+            <SafeAreaView>
+            <View style={styles.menuWrapper}>
+                <TouchableOpacity 
+                style = {{paddingHorizontal: 15, paddingBottom: 15, paddingTop: 3}} 
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+                    <Image source = {menu} 
+                    style = {{
+                        height: 40, 
+                        width: 40,
+                        borderRadius: 2,
+                        resizeMode: 'contain'
+                    }}/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                
+                onPress={() => navigation.navigate('ProfileScreen')}>
+                    <Image source ={profile}
+                    style ={{width: 65,
+                        height: 65, 
+                        borderRadius: 14,
+                        overflow: 'hidden',
+                        borderRadius: 999}}/>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
+
+        {/*Header */} 
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', 
+                        marginBottom:0 }}>
                         <Text style ={styles.discoverTitle}>Dive Logs</Text>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => navigation.navigate( 'ProfileScreen')}>
                             <ProfileImage />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
                     {/* Sort by */}
@@ -332,7 +372,7 @@ const Liked = ({navigation}) => {
                 bottom: 16,
                 right:4}}>
                 <FAB  
-                    buttonColor={COLORS.lightblue2} 
+                    buttonColor={COLORS.darkpink2} 
                     onClickAction={() => navigation.navigate('Dive Log')}
                     visible={true} 
                     iconTextComponent={<Feather name="plus" color= {COLORS.white} size ={29}/>}
@@ -352,7 +392,8 @@ const styles = StyleSheet.create({
     },
     menuWrapper: {
         marginHorizontal: 20,
-        marginTop: 20,
+        marginLeft: 0,
+        marginTop: 45,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -404,7 +445,7 @@ const styles = StyleSheet.create({
         color: colour.white,
     },
     discoverTitle: {
-        marginTop: 63,
+        marginTop: 13,
         marginHorizontal: 23,
         fontFamily: 'LatoBold',
         fontSize:32,
@@ -428,7 +469,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
         
-        elevation: 1,
+        elevation: 4,
     },
 
 })
