@@ -143,7 +143,7 @@ const Photos = ({navigation}) => {
             <View style = {{marginTop: 25,}}>
         
             <View style= {{ flexDirection: 'row',justifyContent: 'space-between', padding: 30}}>
-                <Text style={{fontFamily: 'PoppinsBold', fontSize: 16}}>No of Photos</Text>
+                <Text style={{fontFamily: 'PoppinsBold', fontSize: 16}}>No. of Photos</Text>
                 <Text style={{fontFamily: 'PoppinsBold', fontSize: 16, color: COLORS.darkGray, paddingRight: 5}}>{noOfPhotos}</Text>
             </View>
             </View>
